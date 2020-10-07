@@ -1,0 +1,14 @@
+{
+    "name": "node-rest-objects",
+    "version": "1.0.0",
+    "description": "Can log \"hello world\" and \"goodbye world\" to the console!",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "dependencies": {
+        "@types/axios": "^0.14.0",
+        "axios": "^0.20.0"
+    },
+    "devDependencies": {
+        "typescript": "^4.0.3"
+    }
+}
