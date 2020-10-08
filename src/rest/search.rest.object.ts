@@ -1,6 +1,5 @@
 import RESTObject from './rest.object';
 import * as RestOperations from './rest.operations';
-import getObjectOfType from '../data/object.factory';
 
 interface NoParamConstructor<T> {
     new (): T;
