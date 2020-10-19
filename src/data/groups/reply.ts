@@ -1,24 +1,22 @@
 import { API } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
-import {Content,Stats} from './schemas';
 
-interface IComment{
+interface IReply{
     _id:string;
     author:IUser;
     body:string;
-    queryId:string;
-    responseId:string;
+    postId:string;
     createdAt:any;
     lastModifiedAt:any;
     customAttributes:any;
-    //[prop:string]:any;
+    [prop:string]:any;
 }
 
-class Comment extends RESTObject<IComment>{
+class Reply extends RESTObject<IReply>{
 
     constructor(){
-        super(API.QUERIES.COMMENT);
+        super(API.GROUPS.REPLY);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',
@@ -31,8 +29,7 @@ class Comment extends RESTObject<IComment>{
                     displayPicture:''
                 },
                 body:'',
-                queryId:'',
-                responseId:'',
+                postId:'',
                 customAttributes:{},
                 createdAt:0,
                 lastModifiedAt:0
@@ -40,12 +37,13 @@ class Comment extends RESTObject<IComment>{
         };
 
         this.overloadables.newInstance = () => {
-            return new Comment();
+            return new Reply();
         }
 
         this.overloadables.creationPacket = () => {
             return {
                 body:this.data.body||'',
+                postId:this.data.postId||'',
                 customAttributes:this.data.customAttributes||{}
             }
         }
@@ -71,6 +69,6 @@ class Comment extends RESTObject<IComment>{
 }
 
 export {
-    IComment,
-    Comment
+    IReply,
+    Reply
 }

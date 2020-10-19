@@ -1,22 +1,39 @@
+interface Token{
+    value:string,
+    expiryTime:number
+}
+
 class Headers{
-    accessToken:string;
-    refreshToken:string;
+    accessToken:Token={
+        value:'',
+        expiryTime:0
+    };
+    refreshToken:Token={
+        value:'',
+        expiryTime:0
+    };
 
     getAccessToken(){
-        return this.accessToken||'';
+        return this.accessToken;
     }
 
     getRefreshToken(){
-        return this.refreshToken||'';
+        return this.refreshToken;
     }
 
-    setAccessToken(accessToken:string){
-        this.accessToken = accessToken;
+    setAccessToken(value:string,expiryTime:number){
+        this.accessToken = {
+            value,
+            expiryTime
+        };
         return this.getAccessToken();
     }
 
-    setRefreshToken(refreshToken:string){
-        this.refreshToken = refreshToken;
+    setRefreshToken(value:string,expiryTime:number){
+        this.refreshToken = {
+            value,
+            expiryTime
+        };
         return this.getRefreshToken();
     }
     

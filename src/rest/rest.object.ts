@@ -3,7 +3,7 @@ import SearchRESTObject from './search.rest.object';
 
 export default class RESTObject<T>{
 
-    api:string;
+    private api:Function;
 
     data:T;
 
@@ -18,17 +18,20 @@ export default class RESTObject<T>{
             //console.log('loadPartialContent',preview);
             this.setData(this.copyJSON(this.getData(),preview));
         },
+        formulateCreateUrl: ():string => {
+            return this.api();
+        },
         formulateReadUrl: ():string => {
-            return this.api+'/'+this.data["_id"];
+            return this.api()+'/'+this.data["_id"];
         },
         formulateSearchUrl: (pageSum:number,pageNum:number):string => {
-            return this.api+"?pageSum="+pageSum+"&pageNum="+pageNum;
+            return this.api()+"?pageSum="+pageSum+"&pageNum="+pageNum;
         },
         formulateUpdateUrl: ():string => {
-            return this.api+'/'+this.data["_id"];
+            return this.api()+'/'+this.data["_id"];
         },
         formulateDeleteUrl: ():string => {
-            return this.api+'/'+this.data["_id"];
+            return this.api()+'/'+this.data["_id"];
         },
         creationPacket: ():any => {
             return this.data;
@@ -40,8 +43,11 @@ export default class RESTObject<T>{
 
     //searchRestObject:SearchRESTObject<T>;
 
-    constructor(api:string){
-        this.api = api;
+    constructor(api:string|Function){
+        if(api.constructor === ''.constructor)
+            this.api = function(){return api};
+        else
+            this.api = <Function> api;
         //this.searchRestObject = new SearchRESTObject(this);
         this.overloadables.init();
     }
@@ -54,10 +60,10 @@ export default class RESTObject<T>{
         return this.data;
     }
 
-    setApi(api:string){
-        this.api = api;
-        return this.getApi();
-    }
+    // setApi(api:string){
+    //     this.api = api;
+    //     return this.getApi();
+    // }
 
     setData(data:T){
         this.data = data;
@@ -75,23 +81,23 @@ export default class RESTObject<T>{
     
 
     async create(){
-        console.log('POST',this.api,this.overloadables.creationPacket());
+        console.log('POST',this.overloadables.formulateReadUrl(),this.overloadables.creationPacket());
         // this.data = <T> ((await RestOperations.postOp(this.api,this.overloadables.creationPacket())).data);
-        this.overloadables.loadPartialContent((await RestOperations.postOp(this.api,this.overloadables.creationPacket())).data);
+        this.overloadables.loadPartialContent((await RestOperations.postOp(this.overloadables.formulateReadUrl(),this.overloadables.creationPacket())).data);
     }
 
     async read(){
-        console.log('GET',this.api,this.data["_id"]);
+        console.log('GET',this.overloadables.formulateReadUrl(),this.data["_id"]);
         this.overloadables.loadPartialContent((await RestOperations.getOp(this.overloadables.formulateReadUrl())).data);
     }
 
     async update(){
-        console.log('PUT',this.api,this.overloadables.updationPacket());
+        console.log('PUT',this.overloadables.formulateUpdateUrl(),this.overloadables.updationPacket());
         this.overloadables.loadPartialContent((await RestOperations.putOp(this.overloadables.formulateUpdateUrl(),this.overloadables.updationPacket())).data);
     }
 
     async delete(){
-        console.log('DELETE',this.api,this.data["_id"]);
+        console.log('DELETE',this.overloadables.formulateDeleteUrl(),this.data["_id"]);
         this.overloadables.loadPartialContent((await RestOperations.deleteOp(this.overloadables.formulateDeleteUrl())).data);
     }
 

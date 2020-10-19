@@ -1,24 +1,27 @@
 import { API } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
-import {Content,Stats} from './schemas';
+import {Stats} from './schemas';
 
-interface IComment{
+interface IPost{
     _id:string;
     author:IUser;
+    title:string;
     body:string;
-    queryId:string;
-    responseId:string;
+    groupId:string;
+    active:boolean;
+    topics:string[];
+    stats:Stats;
     createdAt:any;
     lastModifiedAt:any;
     customAttributes:any;
-    //[prop:string]:any;
+    [prop:string]:any;
 }
 
-class Comment extends RESTObject<IComment>{
+class Post extends RESTObject<IPost>{
 
     constructor(){
-        super(API.QUERIES.COMMENT);
+        super(API.GROUPS.POST);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',
@@ -30,9 +33,22 @@ class Comment extends RESTObject<IComment>{
                     lastName:'',
                     displayPicture:''
                 },
+                title:'',
                 body:'',
-                queryId:'',
-                responseId:'',
+                groupId:'',
+                active:true,
+                stats:{
+                    _id:'',
+                    viewCount:0,
+                    postCount:0,
+                    replyCount:0,
+                    followCount:0,
+                    upVoteCount:0,
+                    downVoteCount:0,
+                    spamReportCount:0,
+                    score:0
+                },
+                topics:[],
                 customAttributes:{},
                 createdAt:0,
                 lastModifiedAt:0
@@ -40,19 +56,24 @@ class Comment extends RESTObject<IComment>{
         };
 
         this.overloadables.newInstance = () => {
-            return new Comment();
+            return new Post();
         }
 
         this.overloadables.creationPacket = () => {
             return {
+                title:this.data.title||'',
                 body:this.data.body||'',
+                groupId:this.data.groupId||'',
+                topics:this.data.topics||[],
                 customAttributes:this.data.customAttributes||{}
             }
         }
     
         this.overloadables.updationPacket = () => {
             return {
+                title:this.data.title||'',
                 body:this.data.body||'',
+                topics:this.data.topics||[],
                 customAttributes:this.data.customAttributes||{}
             }
         }
@@ -71,6 +92,6 @@ class Comment extends RESTObject<IComment>{
 }
 
 export {
-    IComment,
-    Comment
+    IPost,
+    Post
 }

@@ -11,10 +11,28 @@ const BASE_PATH = {
     },
     QUERIES:{
         QUERY:DOMAIN.QUERIES+'/api/v1/query',
-        RESPONSE:DOMAIN.QUERIES+'/api/v1/response',
-        COMMENT:DOMAIN.QUERIES+'/api/v1/comment',
-        OPINION:DOMAIN.QUERIES+'/api/v1/opinion',
+        RESPONSE:DOMAIN.QUERIES+'/api/v1/query/:queryId/response',
+        COMMENT:function(){
+            if(this.data.responseId){
+                return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response/'+this.data.responseId+'/comment';
+            }else{
+                return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/comment';
+            }
+        },
+        OPINION:function(){
+            if(this.data.responseId){
+                return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response/'+this.data.responseId+'/opinion';
+            }else{
+                return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/opinion';
+            }
+        },
         TAG:DOMAIN.QUERIES+'/api/v1/tag'
+    },
+    GROUPS:{
+        GROUP:DOMAIN.GROUPS+'/api/v1/group',
+        POST:DOMAIN.GROUPS+'/api/v1/post',
+        REPLY:DOMAIN.GROUPS+'/api/v1/reply',
+        OPINION:DOMAIN.GROUPS+'/api/v1/opinion'
     }
 }
 
@@ -33,7 +51,8 @@ const API = {
             ME:BASE_PATH.USER_MANAGEMENT.USER+'/me'
         }
     },
-    QUERIES:BASE_PATH.QUERIES
+    QUERIES:BASE_PATH.QUERIES,
+    GROUPS:BASE_PATH.GROUPS
 };
 
 export {

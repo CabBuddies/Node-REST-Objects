@@ -11,9 +11,10 @@ const restOptions = function(){
     }
 }
 
-function throwError(e){
+function throwError(s,e){
     const error = new Error();
     error.message = JSON.stringify(e);
+    error.name = s.toString();
     throw error;
 }
 
@@ -21,7 +22,7 @@ const postOp = async function(url:string,data:any){
     try {
         return await axios.post(url,data,restOptions());
     } catch (error) {
-        throwError(error.response.data);
+        throwError(error.response.status,error.response.data);
     }
     return {data:{}};
 };
@@ -35,7 +36,7 @@ const getOp = async function(url:string,data:object={}){
             ...restOptions(),    
         });
     } catch (error) {
-        throwError(error.response.data);
+        throwError(error.response.status,error.response.data);
     }
     return {data:{}};
 };
@@ -44,7 +45,7 @@ const putOp = async function(url:string,data:any){
     try {
         return await axios.put(url,data,restOptions());
     } catch (error) {        
-        throwError(error.response.data);
+        throwError(error.response.status,error.response.data);
     }
     return {data:{}};
 };
@@ -53,7 +54,7 @@ const deleteOp = async function(url:string){
     try {
         return await axios.delete(url,restOptions());
     } catch (error) {
-        throwError(error.response.data);
+        throwError(error.response.status,error.response.data);
     }
     return {data:{}};
 }

@@ -1,9 +1,12 @@
-import * as Auth from '../src/data/user-management/auth';
-import {Query} from '../src/data/queries/query';
-import {Opinion} from '../src/data/queries/opinion';
-import {Comment} from '../src/data/queries/comment';
-import SearchRESTObject from '../src/rest/search.rest.object';
-import RESTObject from '../src/rest/rest.object';
+import * as Auth from '../data/user-management/auth';
+import {Query} from '../data/queries/query';
+import {Opinion} from '../data/queries/opinion';
+import {Comment} from '../data/queries/comment';
+
+import {Group,Post,Reply,Opinion as GOpinion} from '../data/groups';
+
+import SearchRESTObject from '../rest/search.rest.object';
+import RESTObject from '../rest/rest.object';
 
 function sleep(ms){
     return new Promise(function(resolve,reject){
@@ -226,7 +229,53 @@ async function test6(){
     }
 }
 
-test6();
+async function test7(){
+    await Auth.login('nihal+test1@cabbuddies.com','strong');
+
+    const group:Group = new Group();
+
+    group.data.title = 'Sample Title';
+    group.data.description = 'Sample Description';
+
+    group.data.topics = ['topic1','topic2'];
+
+    console.log(group.getApi());
+
+    console.log(group.overloadables.creationPacket());
+
+    await sleep(2000);
+
+    await group.create();
+
+    console.log('post create',group.data);
+
+    const group2:Group = new Group();
+
+    group2.data._id = group.data._id;
+
+    await sleep(2000);
+
+    await group2.read();
+
+    console.log('post read',group2.data);
+
+    group2.data.displayPicture = 'highresimg.png';
+
+    await sleep(2000);
+
+    await group2.update();
+
+    console.log('post update',group2.data);
+
+    await sleep(2000);
+
+    await group2.delete();
+
+    console.log('post delete',group2.data);
+
+}
+
+test5();
 
 
 

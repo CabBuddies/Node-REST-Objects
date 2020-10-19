@@ -3,22 +3,22 @@ import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
 import {Content,Stats} from './schemas';
 
-interface IComment{
+interface IOpinion{
     _id:string;
     author:IUser;
     body:string;
     queryId:string;
     responseId:string;
+    opinionType:string;
     createdAt:any;
-    lastModifiedAt:any;
     customAttributes:any;
-    //[prop:string]:any;
+    [prop:string]:any;
 }
 
-class Comment extends RESTObject<IComment>{
+class Opinion extends RESTObject<IOpinion>{
 
     constructor(){
-        super(API.QUERIES.COMMENT);
+        super(API.GROUPS.OPINION);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',
@@ -33,28 +33,35 @@ class Comment extends RESTObject<IComment>{
                 body:'',
                 queryId:'',
                 responseId:'',
-                customAttributes:{},
+                opinionType:'',
                 createdAt:0,
-                lastModifiedAt:0
+                customAttributes:{}
             });
         };
 
         this.overloadables.newInstance = () => {
-            return new Comment();
+            return new Opinion();
         }
 
         this.overloadables.creationPacket = () => {
+            if(this.data.opinionType){
+                if(['follow','upvote','downvote','spamreport'].indexOf(this.data.opinionType) === -1)
+                    this.data.opinionType = 'upvote';
+            }
             return {
                 body:this.data.body||'',
+                queryId:this.data.queryId||'',
+                responseId:this.data.responseId||'',
+                opinionType:this.data.opinionType||'upvote',
                 customAttributes:this.data.customAttributes||{}
             }
         }
     
         this.overloadables.updationPacket = () => {
-            return {
-                body:this.data.body||'',
-                customAttributes:this.data.customAttributes||{}
-            }
+            const error = new Error();
+            error.message = 'Option is not updatable.';
+            throw error;
+            return {}
         }
 
         this.overloadables.init();
@@ -71,6 +78,6 @@ class Comment extends RESTObject<IComment>{
 }
 
 export {
-    IComment,
-    Comment
+    IOpinion,
+    Opinion
 }
