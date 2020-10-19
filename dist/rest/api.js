@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.API = void 0;
+exports.DOMAIN = exports.API = void 0;
 const DOMAIN = {
     USER_MANAGEMENT: 'http://localhost:4000',
     QUERIES: 'http://localhost:4001',
     GROUPS: 'http://localhost:4002'
 };
+exports.DOMAIN = DOMAIN;
 const BASE_PATH = {
     USER_MANAGEMENT: {
         AUTH: DOMAIN.USER_MANAGEMENT + '/api/v1/auth',

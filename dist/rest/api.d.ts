@@ -1,3 +1,8 @@
+declare const DOMAIN: {
+    USER_MANAGEMENT: string;
+    QUERIES: string;
+    GROUPS: string;
+};
 declare const API: {
     USER_MANAGEMENT: {
         AUTH: {
@@ -27,4 +32,4 @@ declare const API: {
         OPINION: string;
     };
 };
-export { API };
+export { API, DOMAIN };

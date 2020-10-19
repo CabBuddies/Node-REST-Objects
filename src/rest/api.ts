@@ -56,5 +56,5 @@ const API = {
 };
 
 export {
-    API
+    API,DOMAIN
 }
