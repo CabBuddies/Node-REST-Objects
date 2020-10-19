@@ -1,10 +1,14 @@
+interface Token {
+    value: string;
+    expiryTime: number;
+}
 declare class Headers {
-    accessToken: string;
-    refreshToken: string;
-    getAccessToken(): string;
-    getRefreshToken(): string;
-    setAccessToken(accessToken: string): string;
-    setRefreshToken(refreshToken: string): string;
+    accessToken: Token;
+    refreshToken: Token;
+    getAccessToken(): Token;
+    getRefreshToken(): Token;
+    setAccessToken(value: string, expiryTime: number): Token;
+    setRefreshToken(value: string, expiryTime: number): Token;
 }
 declare const _default: Headers;
 export default _default;

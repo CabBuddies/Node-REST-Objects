@@ -46,12 +46,10 @@ class RESTObject {
                 return this.data;
             }
         };
-        if (api instanceof String) {
+        if (api.constructor === ''.constructor)
             this.api = function () { return api; };
-        }
-        else {
+        else
             this.api = api;
-        }
         //this.searchRestObject = new SearchRESTObject(this);
         this.overloadables.init();
     }
@@ -78,26 +76,26 @@ class RESTObject {
     }
     create() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('POST', this.api, this.overloadables.creationPacket());
+            console.log('POST', this.overloadables.formulateReadUrl(), this.overloadables.creationPacket());
             // this.data = <T> ((await RestOperations.postOp(this.api,this.overloadables.creationPacket())).data);
             this.overloadables.loadPartialContent((yield RestOperations.postOp(this.overloadables.formulateReadUrl(), this.overloadables.creationPacket())).data);
         });
     }
     read() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('GET', this.api, this.data["_id"]);
+            console.log('GET', this.overloadables.formulateReadUrl(), this.data["_id"]);
             this.overloadables.loadPartialContent((yield RestOperations.getOp(this.overloadables.formulateReadUrl())).data);
         });
     }
     update() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('PUT', this.api, this.overloadables.updationPacket());
+            console.log('PUT', this.overloadables.formulateUpdateUrl(), this.overloadables.updationPacket());
             this.overloadables.loadPartialContent((yield RestOperations.putOp(this.overloadables.formulateUpdateUrl(), this.overloadables.updationPacket())).data);
         });
     }
     delete() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('DELETE', this.api, this.data["_id"]);
+            console.log('DELETE', this.overloadables.formulateDeleteUrl(), this.data["_id"]);
             this.overloadables.loadPartialContent((yield RestOperations.deleteOp(this.overloadables.formulateDeleteUrl())).data);
         });
     }

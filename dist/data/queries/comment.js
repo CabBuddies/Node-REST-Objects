@@ -31,8 +31,6 @@ class Comment extends rest_object_1.default {
         this.overloadables.creationPacket = () => {
             return {
                 body: this.data.body || '',
-                queryId: this.data.queryId || '',
-                responseId: this.data.responseId || '',
                 customAttributes: this.data.customAttributes || {}
             };
         };

@@ -1,18 +1,34 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Headers {
+    constructor() {
+        this.accessToken = {
+            value: '',
+            expiryTime: 0
+        };
+        this.refreshToken = {
+            value: '',
+            expiryTime: 0
+        };
+    }
     getAccessToken() {
-        return this.accessToken || '';
+        return this.accessToken;
     }
     getRefreshToken() {
-        return this.refreshToken || '';
+        return this.refreshToken;
     }
-    setAccessToken(accessToken) {
-        this.accessToken = accessToken;
+    setAccessToken(value, expiryTime) {
+        this.accessToken = {
+            value,
+            expiryTime
+        };
         return this.getAccessToken();
     }
-    setRefreshToken(refreshToken) {
-        this.refreshToken = refreshToken;
+    setRefreshToken(value, expiryTime) {
+        this.refreshToken = {
+            value,
+            expiryTime
+        };
         return this.getRefreshToken();
     }
 }

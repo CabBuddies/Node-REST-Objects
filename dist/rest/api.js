@@ -16,18 +16,18 @@ const BASE_PATH = {
         RESPONSE: DOMAIN.QUERIES + '/api/v1/query/:queryId/response',
         COMMENT: function () {
             if (this.data.responseId) {
-                return DOMAIN.QUERIES + '/api/v1/query/:queryId/response/:responseId/comment';
+                return DOMAIN.QUERIES + '/api/v1/query/' + this.data.queryId + '/response/' + this.data.responseId + '/comment';
             }
             else {
-                return DOMAIN.QUERIES + '/api/v1/query/:queryId/comment';
+                return DOMAIN.QUERIES + '/api/v1/query/' + this.data.queryId + '/comment';
             }
         },
         OPINION: function () {
             if (this.data.responseId) {
-                return DOMAIN.QUERIES + '/api/v1/query/:queryId/response/:responseId/opinion';
+                return DOMAIN.QUERIES + '/api/v1/query/' + this.data.queryId + '/response/' + this.data.responseId + '/opinion';
             }
             else {
-                return DOMAIN.QUERIES + '/api/v1/query/:queryId/opinion';
+                return DOMAIN.QUERIES + '/api/v1/query/' + this.data.queryId + '/opinion';
             }
         },
         TAG: DOMAIN.QUERIES + '/api/v1/tag'

@@ -9,15 +9,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = void 0;
+exports.login = exports.register = void 0;
 const RestOperations = require("../../rest/rest.operations");
 const headers_1 = require("../../rest/headers");
+const api_1 = require("../../rest/api");
+const register = function (email, password, firstName, lastName, registrationType) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return RestOperations.postOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_UP, { email, password, firstName, lastName, registrationType }).then((result) => {
+            console.log('Register Result', result.data);
+            headers_1.default.setAccessToken(result.data.accessToken.value, result.data.accessToken.expiryTime);
+            headers_1.default.setRefreshToken(result.data.refreshToken.value, result.data.refreshToken.expiryTime);
+            return result;
+        });
+        //console.log(Headers);
+    });
+};
+exports.register = register;
 const login = function (email, password) {
     return __awaiter(this, void 0, void 0, function* () {
-        let result = yield RestOperations.postOp('http://localhost:4000/api/v1/auth/sign_in', { email, password });
-        console.log('Login Result', result.data);
-        headers_1.default.setAccessToken(result.data.accessToken.value);
-        headers_1.default.setRefreshToken(result.data.refreshToken.value);
+        return RestOperations.postOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_IN, { email, password }).then((result) => {
+            console.log('Login Result', result.data);
+            headers_1.default.setAccessToken(result.data.accessToken.value, result.data.accessToken.expiryTime);
+            headers_1.default.setRefreshToken(result.data.refreshToken.value, result.data.refreshToken.expiryTime);
+            return result;
+        });
         //console.log(Headers);
     });
 };

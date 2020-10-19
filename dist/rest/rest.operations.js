@@ -21,9 +21,10 @@ const restOptions = function () {
         happy: 0
     };
 };
-function throwError(e) {
+function throwError(s, e) {
     const error = new Error();
     error.message = JSON.stringify(e);
+    error.name = s.toString();
     throw error;
 }
 const postOp = function (url, data) {
@@ -32,7 +33,7 @@ const postOp = function (url, data) {
             return yield axios_1.default.post(url, data, restOptions());
         }
         catch (error) {
-            throwError(error.response.data);
+            throwError(error.response.status, error.response.data);
         }
         return { data: {} };
     });
@@ -45,7 +46,7 @@ const getOp = function (url, data = {}) {
                 data }, restOptions()));
         }
         catch (error) {
-            throwError(error.response.data);
+            throwError(error.response.status, error.response.data);
         }
         return { data: {} };
     });
@@ -57,7 +58,7 @@ const putOp = function (url, data) {
             return yield axios_1.default.put(url, data, restOptions());
         }
         catch (error) {
-            throwError(error.response.data);
+            throwError(error.response.status, error.response.data);
         }
         return { data: {} };
     });
@@ -69,7 +70,7 @@ const deleteOp = function (url) {
             return yield axios_1.default.delete(url, restOptions());
         }
         catch (error) {
-            throwError(error.response.data);
+            throwError(error.response.status, error.response.data);
         }
         return { data: {} };
     });
