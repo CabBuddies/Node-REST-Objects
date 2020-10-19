@@ -4,7 +4,7 @@ import Headers from './headers';
 const restOptions = function(){
     return {
         headers:{
-            'Authorization':'Access '+Headers.getAccessToken(),
+            'Authorization':'Access '+Headers.getAccessToken().value,
             'Content-Type': 'application/json'
         },
         happy:0

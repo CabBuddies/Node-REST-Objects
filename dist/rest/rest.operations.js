@@ -15,7 +15,7 @@ const headers_1 = require("./headers");
 const restOptions = function () {
     return {
         headers: {
-            'Authorization': 'Access ' + headers_1.default.getAccessToken(),
+            'Authorization': 'Access ' + headers_1.default.getAccessToken().value,
             'Content-Type': 'application/json'
         },
         happy: 0
