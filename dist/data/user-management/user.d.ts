@@ -1,3 +1,4 @@
+import RESTObject from '../../rest/rest.object';
 interface IUser {
     _id: string;
     userId: string;
@@ -7,6 +8,8 @@ interface IUser {
     displayPicture: string;
     [props: string]: any;
 }
-declare class User {
+declare class User extends RESTObject<IUser> {
+    constructor();
+    getMe(): Promise<void>;
 }
 export { IUser, User };
