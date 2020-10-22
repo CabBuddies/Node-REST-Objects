@@ -37,3 +37,7 @@ const login = function (email, password) {
     });
 };
 exports.login = login;
+const signOut = function () {
+    return __awaiter(this, void 0, void 0, function* () {
+    });
+};

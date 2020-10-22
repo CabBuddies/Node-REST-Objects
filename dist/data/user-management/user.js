@@ -14,7 +14,7 @@ const api_1 = require("../../rest/api");
 const rest_object_1 = require("../../rest/rest.object");
 class User extends rest_object_1.default {
     constructor() {
-        super(api_1.API.USER_MANAGEMENT.USER);
+        super(api_1.API.USER_MANAGEMENT.USER.BASE);
         this.overloadables.init = () => {
             this.setData({
                 _id: '',

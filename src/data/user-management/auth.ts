@@ -33,6 +33,10 @@ const login = async function(email:string,password:string){
     //console.log(Headers);
 }
 
+const signOut = async function () {
+    
+}
+
 export {
     register,
     login

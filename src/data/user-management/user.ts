@@ -14,7 +14,7 @@ interface IUser{
 class User extends RESTObject<IUser>{
 
     constructor(){
-        super(API.USER_MANAGEMENT.USER);
+        super(API.USER_MANAGEMENT.USER.BASE);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',
