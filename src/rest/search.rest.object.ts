@@ -82,7 +82,10 @@ export default class SearchRESTObject<T>{
 
         //console.log('search',this.request);
 
-        const result = ((await RestOperations.getOp(this.data.overloadables.formulateSearchUrl(this.request.pageSize,this.request.pageNum),this.request)).data)
+        const result = ((await RestOperations.postOp(
+            this.data.overloadables.formulateSearchUrl(this.request.pageSize,this.request.pageNum)
+            ,this.request
+            )).data)
 
         this.response = {
             query : result.query,

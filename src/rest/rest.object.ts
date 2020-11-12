@@ -25,7 +25,7 @@ export default class RESTObject<T>{
             return this.api()+'/'+this.data["_id"];
         },
         formulateSearchUrl: (pageSum:number,pageNum:number):string => {
-            return this.api()+"?pageSum="+pageSum+"&pageNum="+pageNum;
+            return this.api()+"/search?pageSum="+pageSum+"&pageNum="+pageNum;
         },
         formulateUpdateUrl: ():string => {
             return this.api()+'/'+this.data["_id"];
