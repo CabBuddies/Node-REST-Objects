@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Headers from './headers';
 
-const restOptions = function(){
+const restOptions = function(refresh:boolean=false){
     return {
         headers:{
             'Authorization':'Access '+Headers.getAccessToken().value,
@@ -18,22 +18,22 @@ function throwError(s,e){
     throw error;
 }
 
-const postOp = async function(url:string,data:any){
+const postOp = async function(url:string,data:any,refresh:boolean=false){
     try {
-        return await axios.post(url,data,restOptions());
+        return await axios.post(url,data,restOptions(refresh));
     } catch (error) {
         throwError(error.response.status,error.response.data);
     }
     return {data:{}};
 };
 
-const getOp = async function(url:string,data:object={}){
+const getOp = async function(url:string,data:object={},refresh:boolean=false){
     try {
         return await axios({
             method:'GET',
             url,
             data,
-            ...restOptions(),    
+            ...restOptions(refresh),    
         });
     } catch (error) {
         throwError(error.response.status,error.response.data);
@@ -41,18 +41,18 @@ const getOp = async function(url:string,data:object={}){
     return {data:{}};
 };
 
-const putOp = async function(url:string,data:any){
+const putOp = async function(url:string,data:any,refresh:boolean=false){
     try {
-        return await axios.put(url,data,restOptions());
+        return await axios.put(url,data,restOptions(refresh));
     } catch (error) {        
         throwError(error.response.status,error.response.data);
     }
     return {data:{}};
 };
 
-const deleteOp = async function(url:string){
+const deleteOp = async function(url:string,refresh:boolean=false){
     try {
-        return await axios.delete(url,restOptions());
+        return await axios.delete(url,restOptions(refresh));
     } catch (error) {
         throwError(error.response.status,error.response.data);
     }

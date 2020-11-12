@@ -104,7 +104,7 @@ async function test3(){
     const query = new Query();
     const searchRestObject = new SearchRESTObject(query);
 
-    searchRestObject.setRequest({query:{"stats.followCount":0,"status":"deleted"},sort:{"createdAt":-1},pageSize:2});
+    searchRestObject.setRequest({query:{},sort:{"createdAt":-1},pageSize:5});
 
     await searchRestObject.search();
 
@@ -114,12 +114,12 @@ async function test3(){
             'q preread',
             q.data
         );
-        await q.read();
-        console.log(
-            'q postread',
-            q.data,
-            '\n\n\n'
-        );
+        // await q.read();
+        // console.log(
+        //     'q postread',
+        //     q.data,
+        //     '\n\n\n'
+        // );
     }
 }
 
@@ -275,7 +275,7 @@ async function test7(){
 
 }
 
-test5();
+test3();
 
 
 

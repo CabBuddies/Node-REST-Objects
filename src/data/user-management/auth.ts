@@ -34,7 +34,15 @@ const login = async function(email:string,password:string){
 }
 
 const signOut = async function () {
+    return RestOperations.deleteOp(API.USER_MANAGEMENT.AUTH.SIGN_OUT).then((result)=>{
+
+        console.log('Login Result',result.data);
     
+        Headers.setAccessToken(result.data.accessToken.value,result.data.accessToken.expiryTime);
+        Headers.setRefreshToken(result.data.refreshToken.value,result.data.refreshToken.expiryTime);
+
+        return result;
+    })
 }
 
 export {
