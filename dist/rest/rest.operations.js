@@ -33,19 +33,22 @@ const postOp = function (url, data, refresh = false) {
             return yield axios_1.default.post(url, data, restOptions(refresh));
         }
         catch (error) {
+            if (!error.response)
+                error.response = { status: 503, data: 'Service Unavailable' };
             throwError(error.response.status, error.response.data);
         }
         return { data: {} };
     });
 };
 exports.postOp = postOp;
-const getOp = function (url, data = {}, refresh = false) {
+const getOp = function (url, refresh = false) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return yield axios_1.default(Object.assign({ method: 'GET', url,
-                data }, restOptions(refresh)));
+            return yield axios_1.default.get(url, restOptions(refresh));
         }
         catch (error) {
+            if (!error.response)
+                error.response = { status: 503, data: 'Service Unavailable' };
             throwError(error.response.status, error.response.data);
         }
         return { data: {} };
@@ -58,6 +61,8 @@ const putOp = function (url, data, refresh = false) {
             return yield axios_1.default.put(url, data, restOptions(refresh));
         }
         catch (error) {
+            if (!error.response)
+                error.response = { status: 503, data: 'Service Unavailable' };
             throwError(error.response.status, error.response.data);
         }
         return { data: {} };
@@ -70,6 +75,8 @@ const deleteOp = function (url, refresh = false) {
             return yield axios_1.default.delete(url, restOptions(refresh));
         }
         catch (error) {
+            if (!error.response)
+                error.response = { status: 503, data: 'Service Unavailable' };
             throwError(error.response.status, error.response.data);
         }
         return { data: {} };
