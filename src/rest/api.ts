@@ -63,7 +63,9 @@ const refreshAPI =()=>{
         },
         QUERIES:{
             QUERY:DOMAIN.QUERIES+'/api/v1/query',
-            RESPONSE:DOMAIN.QUERIES+'/api/v1/query/:queryId/response',
+            RESPONSE:function(){
+                return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response';
+            },
             COMMENT:function(){
                 if(this.data.responseId){
                     return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response/'+this.data.responseId+'/comment';

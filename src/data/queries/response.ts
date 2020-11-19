@@ -3,23 +3,23 @@ import {Content,Stats} from './schemas';
 import {IUser} from '../user-management/user';
 import { API } from '../../rest/api';
 
-interface IQuery{
+interface IResponse{
     _id:string;
     author:IUser;
+    queryId:string;
     published:Content;
     draft:Content;
     createdAt;
     status:string;
     customAttributes;
     stats:Stats;
-    access:string;
     [prop:string]:any;
 }
 
-class Query extends RESTObject<IQuery>{
+class Response extends RESTObject<IResponse>{
 
     constructor(){
-        super(API.QUERIES.QUERY);
+        super(API.QUERIES.RESPONSE);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',
@@ -31,6 +31,7 @@ class Query extends RESTObject<IQuery>{
                     lastName:'',
                     displayPicture:''
                 },
+                queryId:'',
                 createdAt:0,
                 customAttributes:{},
                 draft:{
@@ -57,13 +58,12 @@ class Query extends RESTObject<IQuery>{
                     upVoteCount:0,
                     viewCount:0
                 },
-                status:'draft',
-                access: 'public'
+                status:'draft'
             });
         };
 
         this.overloadables.newInstance = () => {
-            return new Query();
+            return new Response();
         }
 
         this.overloadables.creationPacket = () => {
@@ -119,6 +119,14 @@ class Query extends RESTObject<IQuery>{
         this.data._id = _id;
     }
 
+    getQueryId(){
+        return this.data.queryId;
+    }
+
+    setQueryId(queryId){
+        this.data.queryId = queryId;
+    }
+
     setDraft(data:{title:string,body:string,tags:string[]}){
         this.data.draft.title = data.title;
         this.data.draft.body = data.body;
@@ -142,6 +150,6 @@ class Query extends RESTObject<IQuery>{
 }
 
 export {
-    IQuery,
-    Query
+    IResponse,
+    Response
 }

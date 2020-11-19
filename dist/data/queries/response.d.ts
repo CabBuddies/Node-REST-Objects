@@ -1,22 +1,24 @@
 import RESTObject from '../../rest/rest.object';
 import { Content, Stats } from './schemas';
 import { IUser } from '../user-management/user';
-interface IQuery {
+interface IResponse {
     _id: string;
     author: IUser;
+    queryId: string;
     published: Content;
     draft: Content;
     createdAt: any;
     status: string;
     customAttributes: any;
     stats: Stats;
-    access: string;
     [prop: string]: any;
 }
-declare class Query extends RESTObject<IQuery> {
+declare class Response extends RESTObject<IResponse> {
     constructor();
     get_id(): string;
     set_id(_id: any): void;
+    getQueryId(): string;
+    setQueryId(queryId: any): void;
     setDraft(data: {
         title: string;
         body: string;
@@ -36,4 +38,4 @@ declare class Query extends RESTObject<IQuery> {
         lastModifiedAt: any;
     };
 }
-export { IQuery, Query };
+export { IResponse, Response };

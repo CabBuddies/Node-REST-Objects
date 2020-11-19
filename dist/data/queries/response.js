@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Query = void 0;
+exports.Response = void 0;
 const rest_object_1 = require("../../rest/rest.object");
 const api_1 = require("../../rest/api");
-class Query extends rest_object_1.default {
+class Response extends rest_object_1.default {
     constructor() {
-        super(api_1.API.QUERIES.QUERY);
+        super(api_1.API.QUERIES.RESPONSE);
         this.overloadables.init = () => {
             this.setData({
                 _id: '',
@@ -17,6 +17,7 @@ class Query extends rest_object_1.default {
                     lastName: '',
                     displayPicture: ''
                 },
+                queryId: '',
                 createdAt: 0,
                 customAttributes: {},
                 draft: {
@@ -43,12 +44,11 @@ class Query extends rest_object_1.default {
                     upVoteCount: 0,
                     viewCount: 0
                 },
-                status: 'draft',
-                access: 'public'
+                status: 'draft'
             });
         };
         this.overloadables.newInstance = () => {
-            return new Query();
+            return new Response();
         };
         this.overloadables.creationPacket = () => {
             if (this.data.status) {
@@ -98,6 +98,12 @@ class Query extends rest_object_1.default {
     set_id(_id) {
         this.data._id = _id;
     }
+    getQueryId() {
+        return this.data.queryId;
+    }
+    setQueryId(queryId) {
+        this.data.queryId = queryId;
+    }
     setDraft(data) {
         this.data.draft.title = data.title;
         this.data.draft.body = data.body;
@@ -115,4 +121,4 @@ class Query extends rest_object_1.default {
         return Object.assign(Object.assign({}, this.data.published), { _id: this.data._id });
     }
 }
-exports.Query = Query;
+exports.Response = Response;

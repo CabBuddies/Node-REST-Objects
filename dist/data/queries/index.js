@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Opinion = exports.Comment = exports.Query = void 0;
+exports.Opinion = exports.Comment = exports.Response = exports.Query = void 0;
 const query_1 = require("./query");
 Object.defineProperty(exports, "Query", { enumerable: true, get: function () { return query_1.Query; } });
+const response_1 = require("./response");
+Object.defineProperty(exports, "Response", { enumerable: true, get: function () { return response_1.Response; } });
 const comment_1 = require("./comment");
 Object.defineProperty(exports, "Comment", { enumerable: true, get: function () { return comment_1.Comment; } });
 const opinion_1 = require("./opinion");
