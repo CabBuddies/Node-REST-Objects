@@ -22,20 +22,19 @@ const postOp = async function(url:string,data:any,refresh:boolean=false){
     try {
         return await axios.post(url,data,restOptions(refresh));
     } catch (error) {
+        if(!error.response)
+            error.response = {status:503,data:'Service Unavailable'};
         throwError(error.response.status,error.response.data);
     }
     return {data:{}};
 };
 
-const getOp = async function(url:string,data:object={},refresh:boolean=false){
+const getOp = async function(url:string,refresh:boolean=false){
     try {
-        return await axios({
-            method:'GET',
-            url,
-            data,
-            ...restOptions(refresh),    
-        });
+        return await axios.get(url,restOptions(refresh));
     } catch (error) {
+        if(!error.response)
+            error.response = {status:503,data:'Service Unavailable'};
         throwError(error.response.status,error.response.data);
     }
     return {data:{}};
@@ -45,6 +44,8 @@ const putOp = async function(url:string,data:any,refresh:boolean=false){
     try {
         return await axios.put(url,data,restOptions(refresh));
     } catch (error) {        
+        if(!error.response)
+            error.response = {status:503,data:'Service Unavailable'};
         throwError(error.response.status,error.response.data);
     }
     return {data:{}};
@@ -54,6 +55,8 @@ const deleteOp = async function(url:string,refresh:boolean=false){
     try {
         return await axios.delete(url,restOptions(refresh));
     } catch (error) {
+        if(!error.response)
+            error.response = {status:503,data:'Service Unavailable'};
         throwError(error.response.status,error.response.data);
     }
     return {data:{}};
