@@ -5,7 +5,10 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "test": "mocha -r ts-node/register src/test/**/*.test.ts --timeout 60000"
+        "build": "tsc --build",
+        "test": "mocha -r ts-node/register src/test/**/*.test.ts --timeout 60000",
+        "test-simple": "npx ts-node ./src/test/index.ts",
+        "git": "git add . && git commit -am 'Quick Commit' && git push -u origin master"
     },
     "dependencies": {
         "@types/axios": "^0.14.0",

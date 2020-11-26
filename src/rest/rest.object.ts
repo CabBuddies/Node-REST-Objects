@@ -1,5 +1,4 @@
 import * as RestOperations from './rest.operations';
-import SearchRESTObject from './search.rest.object';
 
 export default class RESTObject<T>{
 
@@ -21,11 +20,11 @@ export default class RESTObject<T>{
         formulateCreateUrl: ():string => {
             return this.api();
         },
-        formulateReadUrl: ():string => {
-            return this.api()+'/'+this.data["_id"];
+        formulateReadUrl: (full:boolean=false):string => {
+            return this.api()+'/'+this.data["_id"]+(full?'?full=true':'');
         },
-        formulateSearchUrl: (pageSum:number,pageNum:number):string => {
-            return this.api()+"/search?pageSum="+pageSum+"&pageNum="+pageNum;
+        formulateSearchUrl: (pageSize:number,pageNum:number):string => {
+            return this.api()+"/search?pageSize="+pageSize+"&pageNum="+pageNum;
         },
         formulateUpdateUrl: ():string => {
             return this.api()+'/'+this.data["_id"];
@@ -86,9 +85,9 @@ export default class RESTObject<T>{
         this.overloadables.loadPartialContent((await RestOperations.postOp(this.overloadables.formulateReadUrl(),this.overloadables.creationPacket())).data);
     }
 
-    async read(){
-        console.log('GET',this.overloadables.formulateReadUrl(),this.data["_id"]);
-        this.overloadables.loadPartialContent((await RestOperations.getOp(this.overloadables.formulateReadUrl())).data);
+    async read(full:boolean=false){
+        console.log('GET',this.overloadables.formulateReadUrl(full),this.data["_id"]);
+        this.overloadables.loadPartialContent((await RestOperations.getOp(this.overloadables.formulateReadUrl(full))).data);
     }
 
     async update(){

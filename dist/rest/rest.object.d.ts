@@ -6,8 +6,8 @@ export default class RESTObject<T> {
         newInstance: () => RESTObject<T>;
         loadPartialContent: (preview: object) => any;
         formulateCreateUrl: () => string;
-        formulateReadUrl: () => string;
-        formulateSearchUrl: (pageSum: number, pageNum: number) => string;
+        formulateReadUrl: (full?: boolean) => string;
+        formulateSearchUrl: (pageSize: number, pageNum: number) => string;
         formulateUpdateUrl: () => string;
         formulateDeleteUrl: () => string;
         creationPacket: () => any;
@@ -19,7 +19,7 @@ export default class RESTObject<T> {
     setData(data: T): T;
     copyJSON(target: T, source: object): T;
     create(): Promise<void>;
-    read(): Promise<void>;
+    read(full?: boolean): Promise<void>;
     update(): Promise<void>;
     delete(): Promise<void>;
 }

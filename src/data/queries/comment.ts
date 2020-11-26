@@ -1,7 +1,6 @@
 import { API } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
-import {Content,Stats} from './schemas';
 
 interface IComment{
     _id:string;

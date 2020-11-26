@@ -4,14 +4,19 @@ const DOMAIN = {
     GROUPS:'http://localhost:4002'
 };
 
-let BASE_PATH:any = {
+let BASE_PATH = {
     USER_MANAGEMENT:{
         AUTH:DOMAIN.USER_MANAGEMENT+'/api/v1/auth',
         USER:DOMAIN.USER_MANAGEMENT+'/api/v1/user'
     },
     QUERIES:{
         QUERY:DOMAIN.QUERIES+'/api/v1/query',
-        RESPONSE:DOMAIN.QUERIES+'/api/v1/query/:queryId/response',
+        ACCESS:function(){
+            return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/access';
+        },
+        RESPONSE:function(){
+            return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response';
+        },
         COMMENT:function(){
             if(this.data.responseId){
                 return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response/'+this.data.responseId+'/comment';
@@ -36,19 +41,26 @@ let BASE_PATH:any = {
     }
 };
 
-let API:any = {
+let API = {
     USER_MANAGEMENT:{
         AUTH:{
             BASE:BASE_PATH.USER_MANAGEMENT.AUTH,
             SIGN_UP:BASE_PATH.USER_MANAGEMENT.AUTH+'/sign_up',
             SIGN_IN:BASE_PATH.USER_MANAGEMENT.AUTH+'/sign_in',
             ACCESS_TOKEN:BASE_PATH.USER_MANAGEMENT.AUTH+'/access_token',
+            ME:BASE_PATH.USER_MANAGEMENT.AUTH+'/me',
+            SEND_CONFIRMATION_TOKEN:BASE_PATH+'/send_confirmation_token',
+            CONFIRMATION_TOKEN:BASE_PATH+'/confirmation_token',
             SIGN_OUT:BASE_PATH.USER_MANAGEMENT.AUTH+'/sign_out',
             SIGN_OUT_ALL:BASE_PATH.USER_MANAGEMENT.AUTH+'/sign_out_all'
         },
         USER:{
             BASE:BASE_PATH.USER_MANAGEMENT.USER,
-            ME:BASE_PATH.USER_MANAGEMENT.USER+'/me'
+            ME:BASE_PATH.USER_MANAGEMENT.USER+'/me',
+            //RELATION:BASE_PATH.USER_MANAGEMENT.USER+'/relation',
+            RELATION:function(){
+                return BASE_PATH.USER_MANAGEMENT.USER+'/'+this.data.followeeId.userId+'/relation';
+            }
         }
     },
     QUERIES:BASE_PATH.QUERIES,
@@ -63,6 +75,9 @@ const refreshAPI =()=>{
         },
         QUERIES:{
             QUERY:DOMAIN.QUERIES+'/api/v1/query',
+            ACCESS:function(){
+                return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/access';
+            },
             RESPONSE:function(){
                 return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response';
             },
@@ -89,7 +104,7 @@ const refreshAPI =()=>{
             OPINION:DOMAIN.GROUPS+'/api/v1/opinion'
         }
     };
-
+    
     API = {
         USER_MANAGEMENT:{
             AUTH:{
@@ -97,18 +112,33 @@ const refreshAPI =()=>{
                 SIGN_UP:BASE_PATH.USER_MANAGEMENT.AUTH+'/sign_up',
                 SIGN_IN:BASE_PATH.USER_MANAGEMENT.AUTH+'/sign_in',
                 ACCESS_TOKEN:BASE_PATH.USER_MANAGEMENT.AUTH+'/access_token',
+                ME:BASE_PATH.USER_MANAGEMENT.AUTH+'/me',
+                SEND_CONFIRMATION_TOKEN:BASE_PATH.USER_MANAGEMENT.AUTH+'/send_confirmation_token',
+                CONFIRMATION_TOKEN:BASE_PATH.USER_MANAGEMENT.AUTH+'/confirmation_token',
                 SIGN_OUT:BASE_PATH.USER_MANAGEMENT.AUTH+'/sign_out',
                 SIGN_OUT_ALL:BASE_PATH.USER_MANAGEMENT.AUTH+'/sign_out_all'
             },
             USER:{
                 BASE:BASE_PATH.USER_MANAGEMENT.USER,
-                ME:BASE_PATH.USER_MANAGEMENT.USER+'/me'
+                ME:BASE_PATH.USER_MANAGEMENT.USER+'/me',
+                //RELATION:BASE_PATH.USER_MANAGEMENT.USER+'/relation',
+                RELATION:function(){
+                    let userId = '*';
+                    if(this.data.followeeId && this.data.followeeId.userId){
+                       userId=this.data.followeeId.userId; 
+                    }else if(this.data.followerId && this.data.followerId.userId){
+                       userId=this.data.followerId.userId; 
+                    }
+                    return BASE_PATH.USER_MANAGEMENT.USER+'/'+userId+'/relation';
+                }
             }
         },
         QUERIES:BASE_PATH.QUERIES,
         GROUPS:BASE_PATH.GROUPS
     };
 }
+
+refreshAPI();
 
 export {
     API,DOMAIN,refreshAPI

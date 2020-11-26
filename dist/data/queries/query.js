@@ -67,6 +67,7 @@ class Query extends rest_object_1.default {
                     tags: this.data.draft.tags || []
                 },
                 status: this.data.status || 'draft',
+                access: this.data.access || 'public',
                 customAttributes: this.data.customAttributes || {}
             };
         };
@@ -87,6 +88,7 @@ class Query extends rest_object_1.default {
                     tags: this.data.draft.tags || []
                 },
                 status: this.data.status || 'draft',
+                access: this.data.access || 'public',
                 customAttributes: this.data.customAttributes || {}
             };
         };

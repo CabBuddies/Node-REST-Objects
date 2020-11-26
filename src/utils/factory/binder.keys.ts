@@ -1,0 +1,3 @@
+export default{
+    AUTH_GET_ACCESS_TOKEN:"AUTH_GET_ACCESS_TOKEN"
+}

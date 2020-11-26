@@ -15,6 +15,8 @@ const opinion_1 = require("../data/queries/opinion");
 const comment_1 = require("../data/queries/comment");
 const groups_1 = require("../data/groups");
 const search_rest_object_1 = require("../rest/search.rest.object");
+const user_relation_1 = require("../data/user-management/user.relation");
+const headers_1 = require("../rest/headers");
 function sleep(ms) {
     return new Promise(function (resolve, reject) {
         setTimeout(function () { resolve(10); }, ms);
@@ -22,7 +24,7 @@ function sleep(ms) {
 }
 function test1() {
     return __awaiter(this, void 0, void 0, function* () {
-        yield Auth.login('nihal+test1@cabbuddies.com', 'strong');
+        yield Auth.register('nihal+test+1@cabbuddies.com', 'strong', 'n', 'k', 'inapp');
         let query = new query_1.Query();
         query.setDraft({
             title: 'Sample Title',
@@ -188,7 +190,78 @@ function test7() {
         console.log('post delete', group2.data);
     });
 }
-test3();
+function test8() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Auth.login('nihal+test2@cabbuddies.com', 'strong');
+        //5f59b8fc6368501be25f253e
+        yield Auth.sendConfirmationToken();
+    });
+}
+function test8b() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Auth.login('nihal+test2@cabbuddies.com', 'strong');
+        //5f59b8fc6368501be25f253e
+        console.log(yield Auth.confirmToken('892326'));
+    });
+}
+function test9() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Auth.login('nihal+test2@cabbuddies.com', 'strong');
+        //5f59b8fc6368501be25f253e
+        const userRelation = new user_relation_1.UserRelation();
+        userRelation.setFolloweeId('5f59b8fc6368501be25f253e');
+        userRelation.setStatus('requested');
+        yield userRelation.create();
+        console.log(userRelation);
+    });
+}
+function test10() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Auth.login('nihal+test1@cabbuddies.com', 'strong');
+        //5f59b8fc6368501be25f253e
+        const userRelation = new user_relation_1.UserRelation();
+        userRelation.data.followeeId.userId = headers_1.default.getUserId();
+        const userRelationSearch = new search_rest_object_1.default(userRelation);
+        userRelationSearch.request.query = {
+            "followeeId": headers_1.default.getUserId(),
+            "status": "requested"
+        };
+        userRelationSearch.request.query = {
+            "$and": [
+                {
+                    "status": "accepted"
+                },
+                {
+                    "$or": [
+                        {
+                            "followeeId": headers_1.default.getUserId()
+                        },
+                        {
+                            "followerId": headers_1.default.getUserId()
+                        }
+                    ]
+                }
+            ]
+        };
+        yield userRelationSearch.search();
+        userRelationSearch.response.result.forEach((r) => {
+            console.log(r);
+        });
+    });
+}
+function test11() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Auth.login('nihal+test1@cabbuddies.com', 'strong');
+        //5fc0168f6363047390a37e74
+        const userRelation = new user_relation_1.UserRelation();
+        userRelation.set_id('5fc0168f6363047390a37e74');
+        userRelation.setFolloweeId('5f59b8fc6368501be25f253e');
+        userRelation.setStatus('accepted');
+        yield userRelation.update();
+        console.log(userRelation.data);
+    });
+}
+test11();
 // query2.setDraft({
 //     title:'Sample Title Updated',
 //     body:'Sample Body Updated',

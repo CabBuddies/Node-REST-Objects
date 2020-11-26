@@ -14,6 +14,7 @@ export default class SearchRESTObject<T> {
         attributes: object;
         pageSize: number;
         pageNum: number;
+        pageCount: number;
         resultSize: number;
         resultTotalSize: number;
         result: RESTObject<T>[];

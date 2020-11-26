@@ -12,10 +12,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteOp = exports.putOp = exports.getOp = exports.postOp = void 0;
 const axios_1 = require("axios");
 const headers_1 = require("./headers");
+const factory_1 = require("../utils/factory");
+const Strings_1 = require("../utils/Strings");
+const binder_keys_1 = require("../utils/factory/binder.keys");
 const restOptions = function (refresh = false) {
+    let auth = 'Access ' + headers_1.default.getAccessToken().value;
+    if (refresh)
+        auth = 'Refresh ' + headers_1.default.getRefreshToken().value;
     return {
         headers: {
-            'Authorization': 'Access ' + headers_1.default.getAccessToken().value,
+            'Authorization': auth,
             'Content-Type': 'application/json'
         },
         happy: 0
@@ -23,63 +29,99 @@ const restOptions = function (refresh = false) {
 };
 function throwError(s, e) {
     const error = new Error();
-    error.message = JSON.stringify(e);
+    error.message = e.constructor === ''.constructor ? e : JSON.stringify(e);
     error.name = s.toString();
     throw error;
 }
-const postOp = function (url, data, refresh = false) {
+function deconstructError(error) {
+    let name = '503';
+    let message = 'Service Unavailable';
+    console.log(error, error.response, error.name, error.message);
+    if (error.response) {
+        name = error.response.status + '';
+        message = error.response.data;
+    }
+    else if (error.name) {
+        name = error.name;
+        message = error.message;
+    }
+    return { name, message };
+}
+const httpOp = function (method = 'get', url, data, refresh = false) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            return yield axios_1.default.post(url, data, restOptions(refresh));
-        }
-        catch (error) {
-            if (!error.response)
-                error.response = { status: 503, data: 'Service Unavailable' };
-            throwError(error.response.status, error.response.data);
+        console.log('httpOp', method, url, data, refresh);
+        for (let i = 0; i < 5; i++) {
+            console.log('httpOp', 'i', i);
+            try {
+                if (method === 'post')
+                    return yield axios_1.default.post(url, data, restOptions(refresh));
+                if (method === 'get')
+                    return yield axios_1.default.get(url, restOptions(refresh));
+                if (method === 'put')
+                    return yield axios_1.default.put(url, data, restOptions(refresh));
+                if (method === 'delete')
+                    return yield axios_1.default.delete(url, restOptions(refresh));
+            }
+            catch (error) {
+                const { name, message } = deconstructError(error);
+                if (name === '401') {
+                    console.log('name', name, message);
+                    throwError(name, message);
+                }
+                if (name === '403') {
+                    if (error.response.data.errorCode === 'ACCESS_TOKEN_EXPIRED') {
+                        try {
+                            console.log('Factory', 'boundFunction', binder_keys_1.default.AUTH_GET_ACCESS_TOKEN, factory_1.default.boundFunction(binder_keys_1.default.AUTH_GET_ACCESS_TOKEN));
+                            yield (factory_1.default.boundFunction(binder_keys_1.default.AUTH_GET_ACCESS_TOKEN)());
+                            continue;
+                        }
+                        catch (error) {
+                            console.log('error', error, error.name, error.message);
+                            const { name, message } = deconstructError(error);
+                            headers_1.default.setAccessToken('', 0);
+                            headers_1.default.setRefreshToken('', 0);
+                            headers_1.default.setUserConfirmed(false);
+                            headers_1.default.backupData();
+                            throwError(name, message);
+                        }
+                    }
+                    else if (error.response.data.errorCode === 'REFRESH_TOKEN_EXPIRED') {
+                        throwError('403', Strings_1.default.ERROR.REFRESH_TOKEN_EXPIRED);
+                    }
+                    else {
+                        throwError(name, message);
+                    }
+                }
+                else {
+                    throwError(name, message);
+                }
+            }
+            return { data: {} };
         }
         return { data: {} };
+    });
+};
+const postOp = function (url, data, refresh = false) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return httpOp('post', url, data, refresh);
     });
 };
 exports.postOp = postOp;
 const getOp = function (url, refresh = false) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            return yield axios_1.default.get(url, restOptions(refresh));
-        }
-        catch (error) {
-            if (!error.response)
-                error.response = { status: 503, data: 'Service Unavailable' };
-            throwError(error.response.status, error.response.data);
-        }
-        return { data: {} };
+        return httpOp('get', url, null, refresh);
     });
 };
 exports.getOp = getOp;
 const putOp = function (url, data, refresh = false) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            return yield axios_1.default.put(url, data, restOptions(refresh));
-        }
-        catch (error) {
-            if (!error.response)
-                error.response = { status: 503, data: 'Service Unavailable' };
-            throwError(error.response.status, error.response.data);
-        }
-        return { data: {} };
+        return httpOp('put', url, data, refresh);
     });
 };
 exports.putOp = putOp;
 const deleteOp = function (url, refresh = false) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            return yield axios_1.default.delete(url, restOptions(refresh));
-        }
-        catch (error) {
-            if (!error.response)
-                error.response = { status: 503, data: 'Service Unavailable' };
-            throwError(error.response.status, error.response.data);
-        }
-        return { data: {} };
+        return httpOp('delete', url, null, refresh);
     });
 };
 exports.deleteOp = deleteOp;

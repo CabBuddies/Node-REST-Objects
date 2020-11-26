@@ -1,10 +1,6 @@
 import RESTObject from './rest.object';
 import * as RestOperations from './rest.operations';
 
-interface NoParamConstructor<T> {
-    new (): T;
-}
-
 export default class SearchRESTObject<T>{
 
     data:RESTObject<T>;
@@ -23,6 +19,7 @@ export default class SearchRESTObject<T>{
         attributes:object,
         pageSize:number,
         pageNum:number,
+        pageCount:number,
         resultSize:number,
         resultTotalSize:number,
         result:RESTObject<T>[]
@@ -43,6 +40,7 @@ export default class SearchRESTObject<T>{
             attributes : [],
             pageNum : 1,
             pageSize : 5,
+            pageCount : 0,
 
             resultSize : 0,
             resultTotalSize : 0,
@@ -80,12 +78,20 @@ export default class SearchRESTObject<T>{
 
     async search(){
 
-        //console.log('search',this.request);
+        console.log('search',this.data,this.request);
 
         const result = ((await RestOperations.postOp(
             this.data.overloadables.formulateSearchUrl(this.request.pageSize,this.request.pageNum)
             ,this.request
             )).data)
+
+
+
+        let pageCount = ((result.resultTotalSize/result.pageSize)+(result.resultTotalSize%result.pageSize===0?0:1));
+
+        pageCount = isNaN(pageCount)?0:pageCount;
+
+        pageCount = parseInt(`${pageCount}`);
 
         this.response = {
             query : result.query,
@@ -93,12 +99,14 @@ export default class SearchRESTObject<T>{
             attributes : result.attributes,
             pageNum : result.pageNum,
             pageSize : result.pageSize,
+            pageCount : pageCount,
 
             resultSize : result.resultSize,
             resultTotalSize : result.resultTotalSize,
 
             result : []
         }
+
 
 
         for (const r of result.result) {

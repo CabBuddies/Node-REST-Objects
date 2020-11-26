@@ -27,11 +27,11 @@ class RESTObject {
             formulateCreateUrl: () => {
                 return this.api();
             },
-            formulateReadUrl: () => {
-                return this.api() + '/' + this.data["_id"];
+            formulateReadUrl: (full = false) => {
+                return this.api() + '/' + this.data["_id"] + (full ? '?full=true' : '');
             },
-            formulateSearchUrl: (pageSum, pageNum) => {
-                return this.api() + "/search?pageSum=" + pageSum + "&pageNum=" + pageNum;
+            formulateSearchUrl: (pageSize, pageNum) => {
+                return this.api() + "/search?pageSize=" + pageSize + "&pageNum=" + pageNum;
             },
             formulateUpdateUrl: () => {
                 return this.api() + '/' + this.data["_id"];
@@ -81,10 +81,10 @@ class RESTObject {
             this.overloadables.loadPartialContent((yield RestOperations.postOp(this.overloadables.formulateReadUrl(), this.overloadables.creationPacket())).data);
         });
     }
-    read() {
+    read(full = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('GET', this.overloadables.formulateReadUrl(), this.data["_id"]);
-            this.overloadables.loadPartialContent((yield RestOperations.getOp(this.overloadables.formulateReadUrl())).data);
+            console.log('GET', this.overloadables.formulateReadUrl(full), this.data["_id"]);
+            this.overloadables.loadPartialContent((yield RestOperations.getOp(this.overloadables.formulateReadUrl(full))).data);
         });
     }
     update() {

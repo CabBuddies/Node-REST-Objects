@@ -7,6 +7,8 @@ import {Group,Post,Reply,Opinion as GOpinion} from '../data/groups';
 
 import SearchRESTObject from '../rest/search.rest.object';
 import RESTObject from '../rest/rest.object';
+import { UserRelation } from '../data/user-management/user.relation';
+import headers from '../rest/headers';
 
 function sleep(ms){
     return new Promise(function(resolve,reject){
@@ -15,7 +17,7 @@ function sleep(ms){
 }
 
 async function test1(){
-    await Auth.login('nihal+test1@cabbuddies.com','strong');
+    await Auth.register('nihal+test+1@cabbuddies.com','strong','n','k','inapp');
 
     let query:Query = new Query();
 
@@ -275,7 +277,84 @@ async function test7(){
 
 }
 
-test3();
+async function test8(){
+    await Auth.login('nihal+test2@cabbuddies.com','strong')
+    //5f59b8fc6368501be25f253e
+    await Auth.sendConfirmationToken();
+}
+
+async function test8b(){
+    await Auth.login('nihal+test2@cabbuddies.com','strong')
+    //5f59b8fc6368501be25f253e
+    console.log(await Auth.confirmToken('892326'));
+}
+
+async function test9(){
+    await Auth.login('nihal+test2@cabbuddies.com','strong')
+    //5f59b8fc6368501be25f253e
+    const userRelation = new UserRelation();
+
+    userRelation.setFolloweeId('5f59b8fc6368501be25f253e');
+
+    userRelation.setStatus('requested');
+
+    await userRelation.create();
+
+    console.log(userRelation);
+}
+
+async function test10(){
+    await Auth.login('nihal+test1@cabbuddies.com','strong')
+    //5f59b8fc6368501be25f253e
+    const userRelation = new UserRelation();
+
+    userRelation.data.followeeId.userId = headers.getUserId();
+
+    const userRelationSearch = new SearchRESTObject(userRelation);
+
+    userRelationSearch.request.query={
+        "followeeId":headers.getUserId(),
+        "status":"requested"
+    };
+
+    userRelationSearch.request.query = {
+        "$and":[
+            {
+                "status":"accepted"
+            },
+            {
+                "$or":[
+                    {
+                        "followeeId":headers.getUserId()
+                    },
+                    {
+                        "followerId":headers.getUserId()
+                    }
+                ]
+            }
+        ]
+    }
+
+    await userRelationSearch.search();
+
+    userRelationSearch.response.result.forEach((r)=>{
+        console.log(r);
+    })
+}
+
+async function test11(){
+    await Auth.login('nihal+test1@cabbuddies.com','strong')
+    //5fc0168f6363047390a37e74
+    const userRelation = new UserRelation();
+    userRelation.set_id('5fc0168f6363047390a37e74');
+    userRelation.setFolloweeId('5f59b8fc6368501be25f253e');
+    userRelation.setStatus('accepted');
+    await userRelation.update();
+
+    console.log(userRelation.data);
+}
+
+test11();
 
 
 

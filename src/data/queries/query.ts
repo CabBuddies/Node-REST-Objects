@@ -83,6 +83,7 @@ class Query extends RESTObject<IQuery>{
                     tags : this.data.draft.tags||[]
                 },
                 status:this.data.status||'draft',
+                access:this.data.access||'public',
                 customAttributes:this.data.customAttributes||{}
             }
         }
@@ -104,6 +105,7 @@ class Query extends RESTObject<IQuery>{
                     tags : this.data.draft.tags||[]
                 },
                 status:this.data.status||'draft',
+                access:this.data.access||'public',
                 customAttributes:this.data.customAttributes||{}
             }
         }
