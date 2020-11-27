@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const Auth = require("../data/user-management/auth");
 const query_1 = require("../data/queries/query");
-const opinion_1 = require("../data/queries/opinion");
+const tq_opinion_1 = require("../data/queries/tq.opinion");
 const comment_1 = require("../data/queries/comment");
 const groups_1 = require("../data/groups");
 const search_rest_object_1 = require("../rest/search.rest.object");
@@ -117,7 +117,7 @@ function test4() {
         console.log('\n\n\ncreationPacket', query.overloadables.creationPacket());
         yield query.create();
         console.log('\n\n\ncreatedPacket', query.data);
-        let opinion = new opinion_1.Opinion();
+        let opinion = new tq_opinion_1.TQOpinion();
         opinion.data.opinionType = 'upvote';
         opinion.data.queryId = query.get_id();
         console.log('\n\n\ncreationPacket', opinion.overloadables.creationPacket());
@@ -261,7 +261,39 @@ function test11() {
         console.log(userRelation.data);
     });
 }
-test11();
+function test12() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Auth.login('nihal+test1@cabbuddies.com', 'strong');
+        const comment = new comment_1.Comment();
+        const commentSearch = new search_rest_object_1.default(comment);
+        const qId = '101';
+        const rIds = ['102', '103', '104'];
+        const fetchQ = false;
+        const sq = [];
+        if (fetchQ) {
+            sq.push({
+                "queryId": qId,
+                "responseId": "none"
+            });
+        }
+        rIds.forEach((r) => {
+            sq.push({
+                "queryId": qId,
+                "responseId": r
+            });
+        });
+        commentSearch.request.pageSize = sq.length * 5;
+        commentSearch.request.query = {
+            $or: sq
+        };
+        yield commentSearch.search();
+        console.log(commentSearch.response.query);
+        commentSearch.response.result.forEach(comment => {
+            console.log(comment.data);
+        });
+    });
+}
+test12();
 // query2.setDraft({
 //     title:'Sample Title Updated',
 //     body:'Sample Body Updated',

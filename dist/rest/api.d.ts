@@ -32,9 +32,10 @@ declare let API: {
     };
     GROUPS: {
         GROUP: string;
-        POST: string;
-        REPLY: string;
-        OPINION: string;
+        ACCESS: () => string;
+        POST: () => string;
+        REPLY: () => string;
+        OPINION: () => string;
     };
 };
 declare const refreshAPI: () => void;

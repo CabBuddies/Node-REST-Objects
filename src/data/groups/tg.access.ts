@@ -1,27 +1,24 @@
 import { API } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
-import {Stats} from './schemas';
 
-interface IPost{
+interface ITGAccess{
     _id:string;
     author:IUser;
-    title:string;
-    body:string;
     groupId:string;
-    active:boolean;
-    topics:string[];
-    stats:Stats;
+    userId:IUser;
     createdAt:any;
     lastModifiedAt:any;
+    role:string;
+    status:string;
     customAttributes:any;
-    [prop:string]:any;
+    //[prop:string]:any;
 }
 
-class Post extends RESTObject<IPost>{
+class TGAccess extends RESTObject<ITGAccess>{
 
     constructor(){
-        super(API.GROUPS.POST);
+        super(API.GROUPS.ACCESS);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',
@@ -33,22 +30,17 @@ class Post extends RESTObject<IPost>{
                     lastName:'',
                     displayPicture:''
                 },
-                title:'',
-                body:'',
                 groupId:'',
-                active:true,
-                stats:{
+                userId:{
                     _id:'',
-                    viewCount:0,
-                    postCount:0,
-                    replyCount:0,
-                    followCount:0,
-                    upvoteCount:0,
-                    downvoteCount:0,
-                    spamreportCount:0,
-                    score:0
+                    userId:'',
+                    email:'',
+                    firstName:'',
+                    lastName:'',
+                    displayPicture:''
                 },
-                topics:[],
+                role:'member',
+                status:'requested',
                 customAttributes:{},
                 createdAt:0,
                 lastModifiedAt:0
@@ -56,25 +48,21 @@ class Post extends RESTObject<IPost>{
         };
 
         this.overloadables.newInstance = () => {
-            return new Post();
+            return new TGAccess();
         }
 
         this.overloadables.creationPacket = () => {
             return {
-                title:this.data.title||'',
-                body:this.data.body||'',
-                groupId:this.data.groupId||'',
-                topics:this.data.topics||[],
-                customAttributes:this.data.customAttributes||{}
+                userId:this.data.userId||'',
+                status:this.data.status||'requested',
+                role:this.data.role||'member'
             }
         }
     
         this.overloadables.updationPacket = () => {
             return {
-                title:this.data.title||'',
-                body:this.data.body||'',
-                topics:this.data.topics||[],
-                customAttributes:this.data.customAttributes||{}
+                userId:this.data.userId||'',
+                status:this.data.status||'requested'
             }
         }
 
@@ -92,6 +80,6 @@ class Post extends RESTObject<IPost>{
 }
 
 export {
-    IPost,
-    Post
+    ITGAccess,
+    TGAccess
 }

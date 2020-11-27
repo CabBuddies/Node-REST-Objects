@@ -1,9 +1,9 @@
 import * as Auth from '../data/user-management/auth';
 import {Query} from '../data/queries/query';
-import {Opinion} from '../data/queries/opinion';
+import {TQOpinion as Opinion} from '../data/queries/tq.opinion';
 import {Comment} from '../data/queries/comment';
 
-import {Group,Post,Reply,Opinion as GOpinion} from '../data/groups';
+import {Group,Post,Reply,TGOpinion as GOpinion} from '../data/groups';
 
 import SearchRESTObject from '../rest/search.rest.object';
 import RESTObject from '../rest/rest.object';
@@ -354,7 +354,53 @@ async function test11(){
     console.log(userRelation.data);
 }
 
-test11();
+async function test12(){
+
+    await Auth.login('nihal+test1@cabbuddies.com','strong');
+
+    const comment = new Comment();
+
+    const commentSearch = new SearchRESTObject(comment);
+
+    const qId = '101';
+    const rIds = ['102','103','104'];
+    const fetchQ = false;
+
+    const sq = [];
+
+    if(fetchQ){
+        sq.push({
+            "queryId":qId,
+            "responseId":"none"
+        })
+    }
+
+    rIds.forEach((r)=>{
+        sq.push({
+            "queryId":qId,
+            "responseId":r
+        })
+    })
+
+    commentSearch.request.pageSize = sq.length*5;
+
+
+
+    commentSearch.request.query={
+        $or:sq
+    };
+
+    await commentSearch.search();
+
+    console.log(commentSearch.response.query);
+
+    commentSearch.response.result.forEach(comment=>{
+        console.log(comment.data);
+    })
+    
+}
+
+test12();
 
 
 

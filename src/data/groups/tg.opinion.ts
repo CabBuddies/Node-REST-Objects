@@ -1,21 +1,20 @@
 import { API } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
-import {Content,Stats} from './schemas';
 
-interface IOpinion{
+interface ITGOpinion{
     _id:string;
     author:IUser;
     body:string;
-    queryId:string;
-    responseId:string;
+    groupId:string;
+    postId:string;
     opinionType:string;
     createdAt:any;
     customAttributes:any;
     [prop:string]:any;
 }
 
-class Opinion extends RESTObject<IOpinion>{
+class TGOpinion extends RESTObject<ITGOpinion>{
 
     constructor(){
         super(API.GROUPS.OPINION);
@@ -31,8 +30,8 @@ class Opinion extends RESTObject<IOpinion>{
                     displayPicture:''
                 },
                 body:'',
-                queryId:'',
-                responseId:'',
+                groupId:'',
+                postId:'',
                 opinionType:'',
                 createdAt:0,
                 customAttributes:{}
@@ -40,7 +39,7 @@ class Opinion extends RESTObject<IOpinion>{
         };
 
         this.overloadables.newInstance = () => {
-            return new Opinion();
+            return new TGOpinion();
         }
 
         this.overloadables.creationPacket = () => {
@@ -50,8 +49,8 @@ class Opinion extends RESTObject<IOpinion>{
             }
             return {
                 body:this.data.body||'',
-                queryId:this.data.queryId||'',
-                responseId:this.data.responseId||'',
+                groupId:this.data.groupId||'',
+                postId:this.data.postId||'',
                 opinionType:this.data.opinionType||'upvote',
                 customAttributes:this.data.customAttributes||{}
             }
@@ -78,6 +77,6 @@ class Opinion extends RESTObject<IOpinion>{
 }
 
 export {
-    IOpinion,
-    Opinion
+    ITGOpinion,
+    TGOpinion
 }

@@ -12,32 +12,58 @@ let BASE_PATH = {
     QUERIES:{
         QUERY:DOMAIN.QUERIES+'/api/v1/query',
         ACCESS:function(){
-            return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/access';
+            if(this.data.queryId){
+                return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/access';
+            }else{
+                return DOMAIN.QUERIES+'/api/v1/user/USER_ID/access';
+            }
         },
         RESPONSE:function(){
-            return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response';
+            if(this.data.queryId){
+                return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response';
+            }else{
+                return DOMAIN.QUERIES+'/api/v1/user/USER_ID/response';
+            }
         },
         COMMENT:function(){
-            if(this.data.responseId){
+            console.log('qId',this.data.queryId,'rId',this.data.responseId);
+            if(this.data.queryId && this.data.responseId){
                 return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response/'+this.data.responseId+'/comment';
-            }else{
+            }else if(this.data.queryId){
                 return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/comment';
+            }else{
+                return DOMAIN.QUERIES+'/api/v1/user/USER_ID/comment';
             }
         },
         OPINION:function(){
             if(this.data.responseId){
                 return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response/'+this.data.responseId+'/opinion';
-            }else{
+            }else if(this.data.queryId){
                 return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/opinion';
+            }else{
+                return DOMAIN.QUERIES+'/api/v1/user/USER_ID/opinion';
             }
         },
         TAG:DOMAIN.QUERIES+'/api/v1/tag'
     },
     GROUPS:{
         GROUP:DOMAIN.GROUPS+'/api/v1/group',
-        POST:DOMAIN.GROUPS+'/api/v1/post',
-        REPLY:DOMAIN.GROUPS+'/api/v1/reply',
-        OPINION:DOMAIN.GROUPS+'/api/v1/opinion'
+        ACCESS:function(){
+            return DOMAIN.GROUPS+'/api/v1/group/'+this.data.groupId+'/access';
+        },
+        POST:function(){
+            return DOMAIN.GROUPS+'/api/v1/group/'+this.data.groupId+'/post';
+        },
+        REPLY:function(){
+            return DOMAIN.GROUPS+'/api/v1/group/'+this.data.groupId+'/post'+this.data.postId+'/reply';
+        },
+        OPINION:function(){
+            if(this.data.responseId){
+                return DOMAIN.GROUPS+'/api/v1/group/'+this.data.groupId+'/post/'+this.data.postId+'/opinion';
+            }else{
+                return DOMAIN.GROUPS+'/api/v1/group/'+this.data.groupId+'/opinion';
+            }
+        }
     }
 };
 
@@ -76,32 +102,58 @@ const refreshAPI =()=>{
         QUERIES:{
             QUERY:DOMAIN.QUERIES+'/api/v1/query',
             ACCESS:function(){
-                return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/access';
+                if(this.data.queryId){
+                    return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/access';
+                }else{
+                    return DOMAIN.QUERIES+'/api/v1/user/USER_ID/access';
+                }
             },
             RESPONSE:function(){
-                return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response';
+                if(this.data.queryId){
+                    return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response';
+                }else{
+                    return DOMAIN.QUERIES+'/api/v1/user/USER_ID/response';
+                }
             },
             COMMENT:function(){
+                console.log('qId',this.data.queryId,'rId',this.data.responseId);
                 if(this.data.responseId){
                     return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response/'+this.data.responseId+'/comment';
-                }else{
+                }else if(this.data.queryId){
                     return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/comment';
+                }else{
+                    return DOMAIN.QUERIES+'/api/v1/user/USER_ID/comment';
                 }
             },
             OPINION:function(){
                 if(this.data.responseId){
                     return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/response/'+this.data.responseId+'/opinion';
-                }else{
+                }else if(this.data.queryId){
                     return DOMAIN.QUERIES+'/api/v1/query/'+this.data.queryId+'/opinion';
+                }else{
+                    return DOMAIN.QUERIES+'/api/v1/user/USER_ID/opinion';
                 }
             },
             TAG:DOMAIN.QUERIES+'/api/v1/tag'
         },
         GROUPS:{
             GROUP:DOMAIN.GROUPS+'/api/v1/group',
-            POST:DOMAIN.GROUPS+'/api/v1/post',
-            REPLY:DOMAIN.GROUPS+'/api/v1/reply',
-            OPINION:DOMAIN.GROUPS+'/api/v1/opinion'
+            ACCESS:function(){
+                return DOMAIN.GROUPS+'/api/v1/group/'+this.data.groupId+'/access';
+            },
+            POST:function(){
+                return DOMAIN.GROUPS+'/api/v1/group/'+this.data.groupId+'/post';
+            },
+            REPLY:function(){
+                return DOMAIN.GROUPS+'/api/v1/group/'+this.data.groupId+'/post'+this.data.postId+'/reply';
+            },
+            OPINION:function(){
+                if(this.data.responseId){
+                    return DOMAIN.GROUPS+'/api/v1/group/'+this.data.groupId+'/post/'+this.data.postId+'/opinion';
+                }else{
+                    return DOMAIN.GROUPS+'/api/v1/group/'+this.data.groupId+'/opinion';
+                }
+            }
         }
     };
     

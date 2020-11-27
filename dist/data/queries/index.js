@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Opinion = exports.Comment = exports.Response = exports.Query = void 0;
+exports.TQAccess = exports.TQOpinion = exports.Comment = exports.Response = exports.Query = void 0;
 const query_1 = require("./query");
 Object.defineProperty(exports, "Query", { enumerable: true, get: function () { return query_1.Query; } });
 const response_1 = require("./response");
 Object.defineProperty(exports, "Response", { enumerable: true, get: function () { return response_1.Response; } });
 const comment_1 = require("./comment");
 Object.defineProperty(exports, "Comment", { enumerable: true, get: function () { return comment_1.Comment; } });
-const opinion_1 = require("./opinion");
-Object.defineProperty(exports, "Opinion", { enumerable: true, get: function () { return opinion_1.Opinion; } });
+const tq_opinion_1 = require("./tq.opinion");
+Object.defineProperty(exports, "TQOpinion", { enumerable: true, get: function () { return tq_opinion_1.TQOpinion; } });
+const tq_access_1 = require("./tq.access");
+Object.defineProperty(exports, "TQAccess", { enumerable: true, get: function () { return tq_access_1.TQAccess; } });

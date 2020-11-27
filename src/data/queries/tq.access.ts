@@ -1,24 +1,23 @@
 import { API } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
-import {Content,Stats} from './schemas';
 
-interface IOpinion{
+interface ITQAccess{
     _id:string;
     author:IUser;
-    body:string;
     queryId:string;
-    responseId:string;
-    opinionType:string;
+    userId:IUser;
     createdAt:any;
+    lastModifiedAt:any;
+    status:string;
     customAttributes:any;
     //[prop:string]:any;
 }
 
-class Opinion extends RESTObject<IOpinion>{
+class TQAccess extends RESTObject<ITQAccess>{
 
     constructor(){
-        super(API.QUERIES.OPINION);
+        super(API.QUERIES.ACCESS);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',
@@ -30,38 +29,38 @@ class Opinion extends RESTObject<IOpinion>{
                     lastName:'',
                     displayPicture:''
                 },
-                body:'',
                 queryId:'',
-                responseId:'',
-                opinionType:'',
+                userId:{
+                    _id:'',
+                    userId:'',
+                    email:'',
+                    firstName:'',
+                    lastName:'',
+                    displayPicture:''
+                },
+                status:'requested',
+                customAttributes:{},
                 createdAt:0,
-                customAttributes:{}
+                lastModifiedAt:0
             });
         };
 
         this.overloadables.newInstance = () => {
-            return new Opinion();
+            return new TQAccess();
         }
 
         this.overloadables.creationPacket = () => {
-            if(this.data.opinionType){
-                if(['follow','upvote','downvote','spamreport'].indexOf(this.data.opinionType) === -1)
-                    this.data.opinionType = 'upvote';
-            }
             return {
-                body:this.data.body||'',
-                queryId:this.data.queryId||'',
-                responseId:this.data.responseId||'',
-                opinionType:this.data.opinionType||'upvote',
-                customAttributes:this.data.customAttributes||{}
+                userId:this.data.userId||'',
+                status:this.data.status||'requested'
             }
         }
     
         this.overloadables.updationPacket = () => {
-            const error = new Error();
-            error.message = 'Option is not updatable.';
-            throw error;
-            return {}
+            return {
+                userId:this.data.userId||'',
+                status:this.data.status||'requested'
+            }
         }
 
         this.overloadables.init();
@@ -78,6 +77,6 @@ class Opinion extends RESTObject<IOpinion>{
 }
 
 export {
-    IOpinion,
-    Opinion
+    ITQAccess,
+    TQAccess
 }

@@ -6,9 +6,9 @@ export default class Stats{
     replyCount:number;
     
     followCount:number;
-    upVoteCount:number;
-    downVoteCount:number;
-    spamReportCount:number;
+    upvoteCount:number;
+    downvoteCount:number;
+    spamreportCount:number;
     score:number;
     [prop:string]:any;
 }

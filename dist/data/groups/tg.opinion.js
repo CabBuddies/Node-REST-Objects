@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Post = void 0;
+exports.TGOpinion = void 0;
 const api_1 = require("../../rest/api");
 const rest_object_1 = require("../../rest/rest.object");
-class Post extends rest_object_1.default {
+class TGOpinion extends rest_object_1.default {
     constructor() {
-        super(api_1.API.GROUPS.POST);
+        super(api_1.API.GROUPS.OPINION);
         this.overloadables.init = () => {
             this.setData({
                 _id: '',
@@ -17,46 +17,35 @@ class Post extends rest_object_1.default {
                     lastName: '',
                     displayPicture: ''
                 },
-                title: '',
                 body: '',
                 groupId: '',
-                active: true,
-                stats: {
-                    _id: '',
-                    viewCount: 0,
-                    postCount: 0,
-                    replyCount: 0,
-                    followCount: 0,
-                    upvoteCount: 0,
-                    downvoteCount: 0,
-                    spamreportCount: 0,
-                    score: 0
-                },
-                topics: [],
-                customAttributes: {},
+                postId: '',
+                opinionType: '',
                 createdAt: 0,
-                lastModifiedAt: 0
+                customAttributes: {}
             });
         };
         this.overloadables.newInstance = () => {
-            return new Post();
+            return new TGOpinion();
         };
         this.overloadables.creationPacket = () => {
+            if (this.data.opinionType) {
+                if (['follow', 'upvote', 'downvote', 'spamreport'].indexOf(this.data.opinionType) === -1)
+                    this.data.opinionType = 'upvote';
+            }
             return {
-                title: this.data.title || '',
                 body: this.data.body || '',
                 groupId: this.data.groupId || '',
-                topics: this.data.topics || [],
+                postId: this.data.postId || '',
+                opinionType: this.data.opinionType || 'upvote',
                 customAttributes: this.data.customAttributes || {}
             };
         };
         this.overloadables.updationPacket = () => {
-            return {
-                title: this.data.title || '',
-                body: this.data.body || '',
-                topics: this.data.topics || [],
-                customAttributes: this.data.customAttributes || {}
-            };
+            const error = new Error();
+            error.message = 'Option is not updatable.';
+            throw error;
+            return {};
         };
         this.overloadables.init();
     }
@@ -67,4 +56,4 @@ class Post extends rest_object_1.default {
         this.data._id = _id;
     }
 }
-exports.Post = Post;
+exports.TGOpinion = TGOpinion;

@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Post = void 0;
+exports.TGAccess = void 0;
 const api_1 = require("../../rest/api");
 const rest_object_1 = require("../../rest/rest.object");
-class Post extends rest_object_1.default {
+class TGAccess extends rest_object_1.default {
     constructor() {
-        super(api_1.API.GROUPS.POST);
+        super(api_1.API.GROUPS.ACCESS);
         this.overloadables.init = () => {
             this.setData({
                 _id: '',
@@ -17,45 +17,36 @@ class Post extends rest_object_1.default {
                     lastName: '',
                     displayPicture: ''
                 },
-                title: '',
-                body: '',
                 groupId: '',
-                active: true,
-                stats: {
+                userId: {
                     _id: '',
-                    viewCount: 0,
-                    postCount: 0,
-                    replyCount: 0,
-                    followCount: 0,
-                    upvoteCount: 0,
-                    downvoteCount: 0,
-                    spamreportCount: 0,
-                    score: 0
+                    userId: '',
+                    email: '',
+                    firstName: '',
+                    lastName: '',
+                    displayPicture: ''
                 },
-                topics: [],
+                role: 'member',
+                status: 'requested',
                 customAttributes: {},
                 createdAt: 0,
                 lastModifiedAt: 0
             });
         };
         this.overloadables.newInstance = () => {
-            return new Post();
+            return new TGAccess();
         };
         this.overloadables.creationPacket = () => {
             return {
-                title: this.data.title || '',
-                body: this.data.body || '',
-                groupId: this.data.groupId || '',
-                topics: this.data.topics || [],
-                customAttributes: this.data.customAttributes || {}
+                userId: this.data.userId || '',
+                status: this.data.status || 'requested',
+                role: this.data.role || 'member'
             };
         };
         this.overloadables.updationPacket = () => {
             return {
-                title: this.data.title || '',
-                body: this.data.body || '',
-                topics: this.data.topics || [],
-                customAttributes: this.data.customAttributes || {}
+                userId: this.data.userId || '',
+                status: this.data.status || 'requested'
             };
         };
         this.overloadables.init();
@@ -67,4 +58,4 @@ class Post extends rest_object_1.default {
         this.data._id = _id;
     }
 }
-exports.Post = Post;
+exports.TGAccess = TGAccess;
