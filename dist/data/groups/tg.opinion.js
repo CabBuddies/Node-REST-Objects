@@ -35,8 +35,6 @@ class TGOpinion extends rest_object_1.default {
             }
             return {
                 body: this.data.body || '',
-                groupId: this.data.groupId || '',
-                postId: this.data.postId || '',
                 opinionType: this.data.opinionType || 'upvote',
                 customAttributes: this.data.customAttributes || {}
             };

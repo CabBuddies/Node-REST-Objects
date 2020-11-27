@@ -50,8 +50,6 @@ class TQOpinion extends RESTObject<ITQOpinion>{
             }
             return {
                 body:this.data.body||'',
-                queryId:this.data.queryId||'',
-                responseId:this.data.responseId||'',
                 opinionType:this.data.opinionType||'upvote',
                 customAttributes:this.data.customAttributes||{}
             }

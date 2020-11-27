@@ -49,8 +49,6 @@ class TGOpinion extends RESTObject<ITGOpinion>{
             }
             return {
                 body:this.data.body||'',
-                groupId:this.data.groupId||'',
-                postId:this.data.postId||'',
                 opinionType:this.data.opinionType||'upvote',
                 customAttributes:this.data.customAttributes||{}
             }
