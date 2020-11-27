@@ -15,9 +15,9 @@ const headers_1 = require("../../rest/headers");
 const api_1 = require("../../rest/api");
 const factory_1 = require("../../utils/factory");
 const binder_keys_1 = require("../../utils/factory/binder.keys");
-const register = function (email, password, firstName, lastName, registrationType) {
+const register = function (email, password, firstName, lastName, registrationType, displayPicture = '') {
     return __awaiter(this, void 0, void 0, function* () {
-        return RestOperations.postOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_UP, { email, password, firstName, lastName, registrationType }).then((result) => {
+        return RestOperations.postOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_UP, { email, password, firstName, lastName, registrationType, displayPicture }).then((result) => {
             console.log('Register Result', result.data);
             headers_1.default.setUserId(result.data.userId);
             headers_1.default.setAccessToken(result.data.accessToken.value, result.data.accessToken.expiryTime);
