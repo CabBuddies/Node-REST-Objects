@@ -4,9 +4,9 @@ import { API } from '../../rest/api';
 import Factory from '../../utils/factory';
 import binderKeys from '../../utils/factory/binder.keys';
 
-const register = async function(email:string,password:string,firstName:string,lastName:string,registrationType:string){
+const register = async function(email:string,password:string,firstName:string,lastName:string,registrationType:string,displayPicture:string=''){
     
-    return RestOperations.postOp(API.USER_MANAGEMENT.AUTH.SIGN_UP,{email,password,firstName,lastName,registrationType}).then((result)=>{
+    return RestOperations.postOp(API.USER_MANAGEMENT.AUTH.SIGN_UP,{email,password,firstName,lastName,registrationType,displayPicture}).then((result)=>{
 
         console.log('Register Result',result.data);
         Headers.setUserId(result.data.userId);
