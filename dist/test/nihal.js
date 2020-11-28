@@ -308,7 +308,22 @@ function test13() {
     realtime_database_1.default.getApp({ options });
     realtime_database_1.default.observePath({ path: '/user/102', callback: (val) => { console.log('val', val); } });
 }
-test13();
+//test13();
+Auth.login('nihal+test+1@cabbuddies.com', 'strong').then((result) => {
+    console.log('login', result.data.profile);
+    Auth.getAccessToken().then((result) => {
+        console.log('getAccessToken', result.data.profile);
+        Auth.signOutAll().then((result) => {
+            console.log('signOutAll', result.data.profile);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }).catch((error) => {
+        console.error(error);
+    });
+}).catch((error) => {
+    console.error(error);
+});
 // query2.setDraft({
 //     title:'Sample Title Updated',
 //     body:'Sample Body Updated',

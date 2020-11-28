@@ -420,8 +420,23 @@ function test13(){
     RealtimeDatabase.observePath({path:'/user/102',callback:(val)=>{console.log('val',val)}});
 }
 
-test13();
+//test13();
 
+Auth.login('nihal+test+1@cabbuddies.com','strong').then((result:any)=>{
+    console.log('login',result.data.profile);
+    Auth.getAccessToken().then((result:any)=>{
+        console.log('getAccessToken',result.data.profile);
+        Auth.signOutAll().then((result:any)=>{
+            console.log('signOutAll',result.data.profile);
+        }).catch((error)=>{
+            console.error(error);
+        })
+    }).catch((error)=>{
+        console.error(error);
+    })
+}).catch((error)=>{
+    console.error(error);
+})
 
 
 

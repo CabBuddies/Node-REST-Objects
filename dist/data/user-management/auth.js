@@ -15,31 +15,47 @@ const headers_1 = require("../../rest/headers");
 const api_1 = require("../../rest/api");
 const factory_1 = require("../../utils/factory");
 const binder_keys_1 = require("../../utils/factory/binder.keys");
-const register = function (email, password, firstName, lastName, registrationType, displayPicture = '') {
-    return __awaiter(this, void 0, void 0, function* () {
-        return RestOperations.postOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_UP, { email, password, firstName, lastName, registrationType, displayPicture }).then((result) => {
-            console.log('Register Result', result.data);
-            headers_1.default.setUserId(result.data.userId);
-            headers_1.default.setAccessToken(result.data.accessToken.value, result.data.accessToken.expiryTime);
-            headers_1.default.setRefreshToken(result.data.refreshToken.value, result.data.refreshToken.expiryTime);
-            headers_1.default.setUserConfirmed(result.data.isConfirmed);
+const user_1 = require("./user");
+const getFullProfile = (promise, getProfile = true) => {
+    return new Promise((resolve, reject) => {
+        promise.then((result) => __awaiter(void 0, void 0, void 0, function* () {
+            if (result.data.userId)
+                headers_1.default.setUserId(result.data.userId);
+            if (result.data.accessToken)
+                headers_1.default.setAccessToken(result.data.accessToken.value, result.data.accessToken.expiryTime);
+            if (result.data.refreshToken)
+                headers_1.default.setRefreshToken(result.data.refreshToken.value, result.data.refreshToken.expiryTime);
+            if (result.data.isConfirmed !== undefined)
+                headers_1.default.setUserConfirmed(result.data.isConfirmed);
             headers_1.default.backupData();
             return result;
+        })).then((result) => {
+            if (!getProfile) {
+                resolve(result);
+            }
+            else {
+                const user = new user_1.User();
+                user.getMe().then(() => {
+                    result.data.profile = user.data;
+                    resolve(result);
+                }).catch((err) => {
+                    resolve(result);
+                });
+            }
+        }).catch((err) => {
+            reject(err);
         });
+    });
+};
+const register = function (email, password, firstName, lastName, registrationType, displayPicture = '') {
+    return __awaiter(this, void 0, void 0, function* () {
+        return getFullProfile(RestOperations.postOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_UP, { email, password, firstName, lastName, registrationType, displayPicture }));
     });
 };
 exports.register = register;
 const login = function (email, password) {
     return __awaiter(this, void 0, void 0, function* () {
-        return RestOperations.postOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_IN, { email, password }).then((result) => {
-            console.log('Login Result', result.data);
-            headers_1.default.setUserId(result.data.userId);
-            headers_1.default.setAccessToken(result.data.accessToken.value, result.data.accessToken.expiryTime);
-            headers_1.default.setRefreshToken(result.data.refreshToken.value, result.data.refreshToken.expiryTime);
-            headers_1.default.setUserConfirmed(result.data.isConfirmed);
-            headers_1.default.backupData();
-            return result;
-        });
+        return getFullProfile(RestOperations.postOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_IN, { email, password }));
     });
 };
 exports.login = login;
@@ -52,14 +68,7 @@ exports.getMe = getMe;
 const getAccessToken = function () {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('Auth', 'getAccessToken', api_1.API.USER_MANAGEMENT.AUTH.ACCESS_TOKEN);
-        return RestOperations.getOp(api_1.API.USER_MANAGEMENT.AUTH.ACCESS_TOKEN, true).then((result) => {
-            console.log('getAccessToken Result', result.data);
-            headers_1.default.setUserId(result.data.userId);
-            headers_1.default.setAccessToken(result.data.accessToken.value, result.data.accessToken.expiryTime);
-            headers_1.default.setUserConfirmed(result.data.isConfirmed);
-            headers_1.default.backupData();
-            return result;
-        });
+        return getFullProfile(RestOperations.getOp(api_1.API.USER_MANAGEMENT.AUTH.ACCESS_TOKEN, true));
     });
 };
 exports.getAccessToken = getAccessToken;
@@ -71,43 +80,19 @@ const sendConfirmationToken = function () {
 exports.sendConfirmationToken = sendConfirmationToken;
 const confirmToken = function (token) {
     return __awaiter(this, void 0, void 0, function* () {
-        return RestOperations.postOp(api_1.API.USER_MANAGEMENT.AUTH.CONFIRMATION_TOKEN, { token }).then((result) => {
-            console.log('confirmToken Result', result.data);
-            headers_1.default.setUserId(result.data.userId);
-            headers_1.default.setAccessToken(result.data.accessToken.value, result.data.accessToken.expiryTime);
-            headers_1.default.setRefreshToken(result.data.refreshToken.value, result.data.refreshToken.expiryTime);
-            headers_1.default.setUserConfirmed(result.data.isConfirmed);
-            headers_1.default.backupData();
-            return result;
-        });
+        return getFullProfile(RestOperations.postOp(api_1.API.USER_MANAGEMENT.AUTH.CONFIRMATION_TOKEN, { token }));
     });
 };
 exports.confirmToken = confirmToken;
 const signOut = function () {
     return __awaiter(this, void 0, void 0, function* () {
-        return RestOperations.deleteOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_OUT, true).then((result) => {
-            console.log('SignOut Result', result.data);
-            headers_1.default.setUserId('');
-            headers_1.default.setAccessToken('', 0);
-            headers_1.default.setRefreshToken('', 0);
-            headers_1.default.setUserConfirmed(false);
-            headers_1.default.backupData();
-            return result;
-        });
+        return getFullProfile(RestOperations.deleteOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_OUT, true), false);
     });
 };
 exports.signOut = signOut;
 const signOutAll = function () {
     return __awaiter(this, void 0, void 0, function* () {
-        return RestOperations.deleteOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_OUT_ALL, true).then((result) => {
-            console.log('SignOutAll Result', result.data);
-            headers_1.default.setUserId('');
-            headers_1.default.setAccessToken('', 0);
-            headers_1.default.setRefreshToken('', 0);
-            headers_1.default.setUserConfirmed(false);
-            headers_1.default.backupData();
-            return result;
-        });
+        return getFullProfile(RestOperations.deleteOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_OUT_ALL, true), false);
     });
 };
 exports.signOutAll = signOutAll;
