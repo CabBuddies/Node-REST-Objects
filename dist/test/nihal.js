@@ -293,7 +293,22 @@ function test12() {
         });
     });
 }
-test12();
+const realtime_database_1 = require("../rest/realtime.database");
+function test13() {
+    const options = {
+        apiKey: "AIzaSyDl4dmvk0tBIX0-BWCaOZy0MjAcTtLHo60",
+        authDomain: "cabbuddies-1562982601192.firebaseapp.com",
+        databaseURL: "https://cabbuddies-1562982601192.firebaseio.com",
+        projectId: "cabbuddies-1562982601192",
+        storageBucket: "cabbuddies-1562982601192.appspot.com",
+        messagingSenderId: "1067716858916",
+        appId: "1:1067716858916:web:298c461c0439c497d5b4b1",
+        measurementId: "G-VQLJ1DMMJ5"
+    };
+    realtime_database_1.default.getApp({ options });
+    realtime_database_1.default.observePath({ path: '/user/102', callback: (val) => { console.log('val', val); } });
+}
+test13();
 // query2.setDraft({
 //     title:'Sample Title Updated',
 //     body:'Sample Body Updated',
