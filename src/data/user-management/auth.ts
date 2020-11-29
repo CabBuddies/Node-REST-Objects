@@ -1,6 +1,6 @@
 import * as RestOperations from '../../rest/rest.operations';
 import Headers from '../../rest/headers';
-import { API } from '../../rest/api';
+import { refreshAPI } from '../../rest/api';
 import Factory from '../../utils/factory';
 import binderKeys from '../../utils/factory/binder.keys';
 import {User} from './user';
@@ -44,39 +44,39 @@ const getFullProfile = (promise:Promise<any>,getProfile:boolean=true) => {
 
 const register = async function(email:string,password:string,firstName:string,lastName:string,registrationType:string,displayPicture:string=''){
     
-    return getFullProfile(RestOperations.postOp(API.USER_MANAGEMENT.AUTH.SIGN_UP,{email,password,firstName,lastName,registrationType,displayPicture}))
+    return getFullProfile(RestOperations.postOp(refreshAPI().USER_MANAGEMENT.AUTH.SIGN_UP,{email,password,firstName,lastName,registrationType,displayPicture}))
     
 }
 
 const login = async function(email:string,password:string){
     
-    return getFullProfile(RestOperations.postOp(API.USER_MANAGEMENT.AUTH.SIGN_IN,{email,password}))
+    return getFullProfile(RestOperations.postOp(refreshAPI().USER_MANAGEMENT.AUTH.SIGN_IN,{email,password}))
     
 }
 
 const getMe = async function(){
-    return RestOperations.getOp(API.USER_MANAGEMENT.AUTH.ME);
+    return RestOperations.getOp(refreshAPI().USER_MANAGEMENT.AUTH.ME);
 }
 
 const getAccessToken = async function(){
-    console.log('Auth','getAccessToken',API.USER_MANAGEMENT.AUTH.ACCESS_TOKEN)
-    return getFullProfile(RestOperations.getOp(API.USER_MANAGEMENT.AUTH.ACCESS_TOKEN,true))
+    console.log('Auth','getAccessToken',refreshAPI().USER_MANAGEMENT.AUTH.ACCESS_TOKEN)
+    return getFullProfile(RestOperations.getOp(refreshAPI().USER_MANAGEMENT.AUTH.ACCESS_TOKEN,true))
 }
 
 const sendConfirmationToken = async function(){
-    return RestOperations.getOp(API.USER_MANAGEMENT.AUTH.SEND_CONFIRMATION_TOKEN);
+    return RestOperations.getOp(refreshAPI().USER_MANAGEMENT.AUTH.SEND_CONFIRMATION_TOKEN);
 }
 
 const confirmToken = async function(token:string) {
-    return getFullProfile(RestOperations.postOp(API.USER_MANAGEMENT.AUTH.CONFIRMATION_TOKEN,{token}))
+    return getFullProfile(RestOperations.postOp(refreshAPI().USER_MANAGEMENT.AUTH.CONFIRMATION_TOKEN,{token}))
 }
 
 const signOut = async function () {
-    return getFullProfile(RestOperations.deleteOp(API.USER_MANAGEMENT.AUTH.SIGN_OUT,true),false);
+    return getFullProfile(RestOperations.deleteOp(refreshAPI().USER_MANAGEMENT.AUTH.SIGN_OUT,true),false);
 }
 
 const signOutAll = async function () {
-    return getFullProfile(RestOperations.deleteOp(API.USER_MANAGEMENT.AUTH.SIGN_OUT_ALL,true),false);
+    return getFullProfile(RestOperations.deleteOp(refreshAPI().USER_MANAGEMENT.AUTH.SIGN_OUT_ALL,true),false);
 }
 
 Factory.bindFunction(binderKeys.AUTH_GET_ACCESS_TOKEN,getAccessToken);

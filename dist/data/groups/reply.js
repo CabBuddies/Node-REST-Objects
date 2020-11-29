@@ -5,7 +5,7 @@ const api_1 = require("../../rest/api");
 const rest_object_1 = require("../../rest/rest.object");
 class Reply extends rest_object_1.default {
     constructor() {
-        super(api_1.API.GROUPS.REPLY);
+        super(api_1.refreshAPI().GROUPS.REPLY);
         this.overloadables.init = () => {
             this.setData({
                 _id: '',

@@ -1,7 +1,7 @@
 import RESTObject from '../../rest/rest.object';
 import {Content,Stats} from './schemas';
 import {IUser} from '../user-management/user';
-import { API } from '../../rest/api';
+import { refreshAPI } from '../../rest/api';
 
 interface IResponse{
     _id:string;
@@ -19,7 +19,7 @@ interface IResponse{
 class Response extends RESTObject<IResponse>{
 
     constructor(){
-        super(API.QUERIES.RESPONSE);
+        super(refreshAPI().QUERIES.RESPONSE);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',

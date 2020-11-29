@@ -1,4 +1,4 @@
-import { API } from '../../rest/api';
+import { refreshAPI } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
 import {Content,Stats} from './schemas';
@@ -18,7 +18,7 @@ interface ITQOpinion{
 class TQOpinion extends RESTObject<ITQOpinion>{
 
     constructor(){
-        super(API.QUERIES.OPINION);
+        super(refreshAPI().QUERIES.OPINION);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',

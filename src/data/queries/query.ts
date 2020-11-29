@@ -1,7 +1,7 @@
 import RESTObject from '../../rest/rest.object';
 import {Content,Stats} from './schemas';
 import {IUser} from '../user-management/user';
-import { API } from '../../rest/api';
+import { refreshAPI } from '../../rest/api';
 
 interface IQuery{
     _id:string;
@@ -19,7 +19,7 @@ interface IQuery{
 class Query extends RESTObject<IQuery>{
 
     constructor(){
-        super(API.QUERIES.QUERY);
+        super(refreshAPI().QUERIES.QUERY);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',

@@ -5,7 +5,7 @@ const rest_object_1 = require("../../rest/rest.object");
 const api_1 = require("../../rest/api");
 class Query extends rest_object_1.default {
     constructor() {
-        super(api_1.API.QUERIES.QUERY);
+        super(api_1.refreshAPI().QUERIES.QUERY);
         this.overloadables.init = () => {
             this.setData({
                 _id: '',

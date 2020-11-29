@@ -1,4 +1,4 @@
-import { API } from '../../rest/api';
+import { refreshAPI } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
 
@@ -16,7 +16,7 @@ interface IReply{
 class Reply extends RESTObject<IReply>{
 
     constructor(){
-        super(API.GROUPS.REPLY);
+        super(refreshAPI().GROUPS.REPLY);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',

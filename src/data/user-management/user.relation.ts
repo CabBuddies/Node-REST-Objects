@@ -1,6 +1,6 @@
 import RESTObject from '../../rest/rest.object';
 import {IUser} from '../user-management/user';
-import { API } from '../../rest/api';
+import { refreshAPI } from '../../rest/api';
 
 interface IUserRelation{
     _id:string;
@@ -16,7 +16,7 @@ interface IUserRelation{
 class UserRelation extends RESTObject<IUserRelation>{
 
     constructor(){
-        super(API.USER_MANAGEMENT.USER.RELATION);
+        super(refreshAPI().USER_MANAGEMENT.USER.RELATION);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',

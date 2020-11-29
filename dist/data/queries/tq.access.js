@@ -5,7 +5,7 @@ const api_1 = require("../../rest/api");
 const rest_object_1 = require("../../rest/rest.object");
 class TQAccess extends rest_object_1.default {
     constructor() {
-        super(api_1.API.QUERIES.ACCESS);
+        super(api_1.refreshAPI().QUERIES.ACCESS);
         this.overloadables.init = () => {
             this.setData({
                 _id: '',

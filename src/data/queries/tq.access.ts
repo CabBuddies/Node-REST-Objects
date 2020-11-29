@@ -1,4 +1,4 @@
-import { API } from '../../rest/api';
+import { refreshAPI } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
 
@@ -17,7 +17,7 @@ interface ITQAccess{
 class TQAccess extends RESTObject<ITQAccess>{
 
     constructor(){
-        super(API.QUERIES.ACCESS);
+        super(refreshAPI().QUERIES.ACCESS);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',

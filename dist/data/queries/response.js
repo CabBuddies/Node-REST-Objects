@@ -5,7 +5,7 @@ const rest_object_1 = require("../../rest/rest.object");
 const api_1 = require("../../rest/api");
 class Response extends rest_object_1.default {
     constructor() {
-        super(api_1.API.QUERIES.RESPONSE);
+        super(api_1.refreshAPI().QUERIES.RESPONSE);
         this.overloadables.init = () => {
             this.setData({
                 _id: '',

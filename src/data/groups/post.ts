@@ -1,4 +1,4 @@
-import { API } from '../../rest/api';
+import { refreshAPI } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
 import {Stats} from './schemas';
@@ -21,7 +21,7 @@ interface IPost{
 class Post extends RESTObject<IPost>{
 
     constructor(){
-        super(API.GROUPS.POST);
+        super(refreshAPI().GROUPS.POST);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',

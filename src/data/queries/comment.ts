@@ -1,4 +1,4 @@
-import { API } from '../../rest/api';
+import { refreshAPI } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
 
@@ -17,7 +17,7 @@ interface IComment{
 class Comment extends RESTObject<IComment>{
 
     constructor(){
-        super(API.QUERIES.COMMENT);
+        super(refreshAPI().QUERIES.COMMENT);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',

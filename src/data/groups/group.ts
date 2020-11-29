@@ -1,7 +1,7 @@
 import RESTObject from '../../rest/rest.object';
 import {Stats} from './schemas';
 import {IUser} from '../user-management/user';
-import { API } from '../../rest/api';
+import { refreshAPI } from '../../rest/api';
 import {deIdfy} from '../utils';
 
 interface ITime{
@@ -70,7 +70,7 @@ interface IGroup{
 class Group extends RESTObject<IGroup>{
 
     constructor(){
-        super(API.GROUPS.GROUP);
+        super(refreshAPI().GROUPS.GROUP);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',

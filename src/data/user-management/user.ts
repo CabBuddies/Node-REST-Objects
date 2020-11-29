@@ -1,4 +1,4 @@
-import { API } from '../../rest/api';
+import { refreshAPI } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 
 interface IUser{
@@ -14,7 +14,7 @@ interface IUser{
 class User extends RESTObject<IUser>{
 
     constructor(){
-        super(API.USER_MANAGEMENT.USER.BASE);
+        super(refreshAPI().USER_MANAGEMENT.USER.BASE);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',

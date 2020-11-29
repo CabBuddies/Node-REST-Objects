@@ -7,7 +7,7 @@ const utils_1 = require("../utils");
 ;
 class Group extends rest_object_1.default {
     constructor() {
-        super(api_1.API.GROUPS.GROUP);
+        super(api_1.refreshAPI().GROUPS.GROUP);
         this.overloadables.init = () => {
             this.setData({
                 _id: '',

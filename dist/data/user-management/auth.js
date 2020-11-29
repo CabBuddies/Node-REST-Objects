@@ -49,50 +49,50 @@ const getFullProfile = (promise, getProfile = true) => {
 };
 const register = function (email, password, firstName, lastName, registrationType, displayPicture = '') {
     return __awaiter(this, void 0, void 0, function* () {
-        return getFullProfile(RestOperations.postOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_UP, { email, password, firstName, lastName, registrationType, displayPicture }));
+        return getFullProfile(RestOperations.postOp(api_1.refreshAPI().USER_MANAGEMENT.AUTH.SIGN_UP, { email, password, firstName, lastName, registrationType, displayPicture }));
     });
 };
 exports.register = register;
 const login = function (email, password) {
     return __awaiter(this, void 0, void 0, function* () {
-        return getFullProfile(RestOperations.postOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_IN, { email, password }));
+        return getFullProfile(RestOperations.postOp(api_1.refreshAPI().USER_MANAGEMENT.AUTH.SIGN_IN, { email, password }));
     });
 };
 exports.login = login;
 const getMe = function () {
     return __awaiter(this, void 0, void 0, function* () {
-        return RestOperations.getOp(api_1.API.USER_MANAGEMENT.AUTH.ME);
+        return RestOperations.getOp(api_1.refreshAPI().USER_MANAGEMENT.AUTH.ME);
     });
 };
 exports.getMe = getMe;
 const getAccessToken = function () {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('Auth', 'getAccessToken', api_1.API.USER_MANAGEMENT.AUTH.ACCESS_TOKEN);
-        return getFullProfile(RestOperations.getOp(api_1.API.USER_MANAGEMENT.AUTH.ACCESS_TOKEN, true));
+        console.log('Auth', 'getAccessToken', api_1.refreshAPI().USER_MANAGEMENT.AUTH.ACCESS_TOKEN);
+        return getFullProfile(RestOperations.getOp(api_1.refreshAPI().USER_MANAGEMENT.AUTH.ACCESS_TOKEN, true));
     });
 };
 exports.getAccessToken = getAccessToken;
 const sendConfirmationToken = function () {
     return __awaiter(this, void 0, void 0, function* () {
-        return RestOperations.getOp(api_1.API.USER_MANAGEMENT.AUTH.SEND_CONFIRMATION_TOKEN);
+        return RestOperations.getOp(api_1.refreshAPI().USER_MANAGEMENT.AUTH.SEND_CONFIRMATION_TOKEN);
     });
 };
 exports.sendConfirmationToken = sendConfirmationToken;
 const confirmToken = function (token) {
     return __awaiter(this, void 0, void 0, function* () {
-        return getFullProfile(RestOperations.postOp(api_1.API.USER_MANAGEMENT.AUTH.CONFIRMATION_TOKEN, { token }));
+        return getFullProfile(RestOperations.postOp(api_1.refreshAPI().USER_MANAGEMENT.AUTH.CONFIRMATION_TOKEN, { token }));
     });
 };
 exports.confirmToken = confirmToken;
 const signOut = function () {
     return __awaiter(this, void 0, void 0, function* () {
-        return getFullProfile(RestOperations.deleteOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_OUT, true), false);
+        return getFullProfile(RestOperations.deleteOp(api_1.refreshAPI().USER_MANAGEMENT.AUTH.SIGN_OUT, true), false);
     });
 };
 exports.signOut = signOut;
 const signOutAll = function () {
     return __awaiter(this, void 0, void 0, function* () {
-        return getFullProfile(RestOperations.deleteOp(api_1.API.USER_MANAGEMENT.AUTH.SIGN_OUT_ALL, true), false);
+        return getFullProfile(RestOperations.deleteOp(api_1.refreshAPI().USER_MANAGEMENT.AUTH.SIGN_OUT_ALL, true), false);
     });
 };
 exports.signOutAll = signOutAll;

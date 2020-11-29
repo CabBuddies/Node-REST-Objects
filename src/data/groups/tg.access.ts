@@ -1,4 +1,4 @@
-import { API } from '../../rest/api';
+import { refreshAPI } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
 
@@ -18,7 +18,7 @@ interface ITGAccess{
 class TGAccess extends RESTObject<ITGAccess>{
 
     constructor(){
-        super(API.GROUPS.ACCESS);
+        super(refreshAPI().GROUPS.ACCESS);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',

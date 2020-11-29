@@ -1,4 +1,4 @@
-import { API } from '../../rest/api';
+import { refreshAPI } from '../../rest/api';
 import RESTObject from '../../rest/rest.object';
 import { IUser } from '../user-management/user';
 
@@ -17,7 +17,7 @@ interface ITGOpinion{
 class TGOpinion extends RESTObject<ITGOpinion>{
 
     constructor(){
-        super(API.GROUPS.OPINION);
+        super(refreshAPI().GROUPS.OPINION);
         this.overloadables.init = () => {
             this.setData({
                 _id:'',
