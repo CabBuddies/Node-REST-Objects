@@ -38,7 +38,7 @@ declare const refreshAPI: (domain?: typeof DOMAIN) => {
         OPINION: () => string;
     };
 };
-export { DOMAIN, refreshAPI };
+export { refreshAPI };
 /**
  *
  

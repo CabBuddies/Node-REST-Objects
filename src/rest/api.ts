@@ -113,7 +113,7 @@ const refreshAPI =(domain?:typeof DOMAIN)=>{
 refreshAPI();
 
 export {
-    DOMAIN,refreshAPI
+    refreshAPI
 }
 
 

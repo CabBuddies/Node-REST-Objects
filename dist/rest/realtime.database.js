@@ -40,9 +40,9 @@ class RealtimeDatabase {
             });
         };
         this.observePath = ({ options, url, path, callback }) => {
-            callback = callback || (() => { });
+            callback = callback || ((snapshot) => { });
             this.getPath({ options, url, path }).on('child_added', (snapshot) => {
-                callback(snapshot.val());
+                callback(snapshot);
             });
         };
     }

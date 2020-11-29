@@ -1,16 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.refreshAPI = exports.DOMAIN = void 0;
+exports.refreshAPI = void 0;
 const headers_1 = require("./headers");
 let DOMAIN = {
     USER_MANAGEMENT: 'http://localhost:4000',
     QUERIES: 'http://localhost:4001',
     GROUPS: 'http://localhost:4002'
 };
-exports.DOMAIN = DOMAIN;
 const refreshAPI = (domain) => {
     if (domain) {
-        exports.DOMAIN = DOMAIN = domain;
+        DOMAIN = domain;
     }
     const BASE_PATH = {
         USER_MANAGEMENT: {

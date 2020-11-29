@@ -5,7 +5,7 @@ interface props {
     url?: string;
     path?: string;
     value?: any;
-    callback?: Function;
+    callback?(snapshot: firebase.database.DataSnapshot): any;
 }
 declare class RealtimeDatabase {
     app: firebase.app.App;
