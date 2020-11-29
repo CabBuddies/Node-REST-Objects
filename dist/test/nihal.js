@@ -136,6 +136,20 @@ function unfollowUser(userId) {
         }
     });
 }
+function isFollowing(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const userRelation = new user_management_1.UserRelation();
+            userRelation.data.followeeId.userId = userId;
+            yield userRelation.read(true);
+            return userRelation;
+        }
+        catch (error) {
+            console.error(error);
+        }
+        return false;
+    });
+}
 liveUserSuggestion('nih').then((result) => {
     console.log(result);
 }).catch((error) => {

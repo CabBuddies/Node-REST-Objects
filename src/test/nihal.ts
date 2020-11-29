@@ -118,6 +118,18 @@ async function unfollowUser(userId:string) {
     }
 }
 
+async function isFollowing(userId:string){
+    try {
+        const userRelation:UserRelation = new UserRelation();
+        userRelation.data.followeeId.userId = userId;
+        await userRelation.read(true);
+        return userRelation;
+    } catch (error) {
+        console.error(error);
+    }
+    return false;
+}
+
 liveUserSuggestion('nih').then((result)=>{
     console.log(result);
 }).catch((error)=>{

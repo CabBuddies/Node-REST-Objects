@@ -2,6 +2,7 @@ import RESTObject from '../../rest/rest.object';
 import {Stats} from './schemas';
 import {IUser} from '../user-management/user';
 import { API } from '../../rest/api';
+import {deIdfy} from '../utils';
 
 interface ITime{
     _id:string;
@@ -179,7 +180,7 @@ class Group extends RESTObject<IGroup>{
         }
 
         this.overloadables.creationPacket = () => {
-            return {
+            return deIdfy({
                 title:this.data.title||'',
                 description:this.data.description||'',
                 displayPicture:this.data.displayPicture||'',
@@ -187,7 +188,7 @@ class Group extends RESTObject<IGroup>{
                 access:this.data.access||{},
                 preferences:this.data.preferences||{},
                 customAttributes:this.data.customAttributes||{}
-            }
+            })
         }
     
         this.overloadables.updationPacket = () => {

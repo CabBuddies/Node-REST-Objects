@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Group = void 0;
 const rest_object_1 = require("../../rest/rest.object");
 const api_1 = require("../../rest/api");
+const utils_1 = require("../utils");
 ;
 class Group extends rest_object_1.default {
     constructor() {
@@ -114,7 +115,7 @@ class Group extends rest_object_1.default {
             return new Group();
         };
         this.overloadables.creationPacket = () => {
-            return {
+            return utils_1.deIdfy({
                 title: this.data.title || '',
                 description: this.data.description || '',
                 displayPicture: this.data.displayPicture || '',
@@ -122,7 +123,7 @@ class Group extends rest_object_1.default {
                 access: this.data.access || {},
                 preferences: this.data.preferences || {},
                 customAttributes: this.data.customAttributes || {}
-            };
+            });
         };
         this.overloadables.updationPacket = () => {
             return {
