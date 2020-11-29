@@ -38,7 +38,12 @@ function deconstructError(error){
     return {name,message};
 }
 
-const httpOp = async function(method:string='get',url:string,data:any,refresh:boolean=false){
+const httpOp = async function(
+            method:'post'|'get'|'put'|'delete'='get',
+            url:string,
+            data:any,
+            refresh:boolean=false
+        ){
     console.log('httpOp',method,url,data,refresh);
     for(let i=0;i<5;i++){
         console.log('httpOp','i',i);

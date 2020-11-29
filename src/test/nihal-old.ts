@@ -296,7 +296,7 @@ async function test9(){
 
     userRelation.setFolloweeId('5f59b8fc6368501be25f253e');
 
-    userRelation.setStatus('requested');
+    //userRelation.setStatus('requested');
 
     await userRelation.create();
 
@@ -348,7 +348,7 @@ async function test11(){
     const userRelation = new UserRelation();
     userRelation.set_id('5fc0168f6363047390a37e74');
     userRelation.setFolloweeId('5f59b8fc6368501be25f253e');
-    userRelation.setStatus('accepted');
+    //userRelation.setStatus('accepted');
     await userRelation.update();
 
     console.log(userRelation.data);

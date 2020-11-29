@@ -1,5 +1,6 @@
 import { IQuery, Query } from "../data/queries";
-import { IUser, User, UserRelation } from "../data/user-management";
+import { Auth, IUser, User, UserRelation } from "../data/user-management";
+import realtimeDatabase from "../rest/realtime.database";
 import SearchRESTObject from "../rest/search.rest.object";
 
 function sleep(ms){
@@ -7,6 +8,17 @@ function sleep(ms){
         setTimeout(function(){resolve(10)},ms);
     })
 }
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDl4dmvk0tBIX0-BWCaOZy0MjAcTtLHo60",
+    authDomain: "cabbuddies-1562982601192.firebaseapp.com",
+    databaseURL: "https://cabbuddies-1562982601192.firebaseio.com",
+    projectId: "cabbuddies-1562982601192",
+    storageBucket: "cabbuddies-1562982601192.appspot.com",
+    messagingSenderId: "1067716858916",
+    appId: "1:1067716858916:web:298c461c0439c497d5b4b1",
+    measurementId: "G-VQLJ1DMMJ5"
+};
 
 function testSearchUtil(attributes:string[],search:string=''){
     const _data:any[] = [];
@@ -130,9 +142,18 @@ async function isFollowing(userId:string){
     return false;
 }
 
-liveUserSuggestion('nih').then((result)=>{
-    console.log(result);
-}).catch((error)=>{
+async function notificationsChannel(){
+    realtimeDatabase.getApp({options:firebaseConfig});
+    await sleep(2000);
+    const userId = '5f59b8fc6368501be25f253e';
+    realtimeDatabase.observePath({path:'/user/'+userId,quickDelete:true,callback:(snapshot)=>{
+        console.log(snapshot.key,JSON.stringify(snapshot.val(),null,2));
+    }})
+    await Auth.register('nihal+google1@cabbuddies.com','strong','Nihal','Konda','google');
+    await sleep(2000);
+    console.log(await sendFollowRequest(userId));
+    await sleep(20000);
+}
 
-})
+notificationsChannel();
 

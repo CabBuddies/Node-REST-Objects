@@ -34,15 +34,24 @@ class RealtimeDatabase {
                         reject(error);
                     }
                     else {
-                        resolve();
+                        resolve(true);
                     }
                 });
             });
         };
-        this.observePath = ({ options, url, path, callback }) => {
+        this.observePath = ({ options, url, path, event, quickDelete, callback }) => {
             callback = callback || ((snapshot) => { });
-            this.getPath({ options, url, path }).on('child_added', (snapshot) => {
+            const deleteFunction = quickDelete ?
+                (id) => {
+                    this.getPath({ options, url, path: path + '/' + id }).remove();
+                } :
+                (id) => { };
+            event = event || 'child_added';
+            this.getPath({ options, url, path }).on(event, (snapshot) => {
                 callback(snapshot);
+                setTimeout(() => {
+                    deleteFunction(snapshot.key);
+                }, 10000);
             });
         };
     }

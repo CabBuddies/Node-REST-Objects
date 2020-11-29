@@ -76,8 +76,5 @@ class UserRelation extends rest_object_1.default {
     setFollowerId(userId) {
         this.data.followerId.userId = userId;
     }
-    setStatus(status) {
-        this.data.status = status;
-    }
 }
 exports.UserRelation = UserRelation;

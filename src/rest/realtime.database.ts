@@ -6,6 +6,8 @@ interface props{
     url?:string,
     path?:string,
     value?:any,
+    event?:'child_added'|'value',
+    quickDelete?:boolean
     callback?(snapshot:firebase.database.DataSnapshot):any
 }
 
@@ -45,17 +47,25 @@ class RealtimeDatabase{
                 if(error){
                     reject(error)
                 }else{
-                    resolve()
+                    resolve(true)
                 }
             });
         })
     }
 
-    observePath = ({options,url,path,callback}:props) => {
+    observePath = ({options,url,path,event,quickDelete,callback}:props) => {
         callback = callback||((snapshot:firebase.database.DataSnapshot)=>{});
-        
-        this.getPath({options,url,path}).on('child_added',(snapshot)=>{
+        const deleteFunction = quickDelete?
+                                        (id)=>{
+                                            this.getPath({options,url,path:path+'/'+id}).remove();             
+                                        }:
+                                        (id)=>{};
+        event = event||'child_added';
+        this.getPath({options,url,path}).on(event,(snapshot)=>{
             callback(snapshot);
+            setTimeout(()=>{
+                deleteFunction(snapshot.key);
+            },10000);
         })
     }
 }

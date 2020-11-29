@@ -42,7 +42,7 @@ const getFullProfile = (promise:Promise<any>,getProfile:boolean=true) => {
     })
 }
 
-const register = async function(email:string,password:string,firstName:string,lastName:string,registrationType:string,displayPicture:string=''){
+const register = async function(email:string,password:string,firstName:string,lastName:string,registrationType:'inapp'|'google',displayPicture:string=''){
     
     return getFullProfile(RestOperations.postOp(refreshAPI().USER_MANAGEMENT.AUTH.SIGN_UP,{email,password,firstName,lastName,registrationType,displayPicture}))
     

@@ -210,7 +210,7 @@ function test9() {
         //5f59b8fc6368501be25f253e
         const userRelation = new user_relation_1.UserRelation();
         userRelation.setFolloweeId('5f59b8fc6368501be25f253e');
-        userRelation.setStatus('requested');
+        //userRelation.setStatus('requested');
         yield userRelation.create();
         console.log(userRelation);
     });
@@ -256,7 +256,7 @@ function test11() {
         const userRelation = new user_relation_1.UserRelation();
         userRelation.set_id('5fc0168f6363047390a37e74');
         userRelation.setFolloweeId('5f59b8fc6368501be25f253e');
-        userRelation.setStatus('accepted');
+        //userRelation.setStatus('accepted');
         yield userRelation.update();
         console.log(userRelation.data);
     });

@@ -5,6 +5,8 @@ interface props {
     url?: string;
     path?: string;
     value?: any;
+    event?: 'child_added' | 'value';
+    quickDelete?: boolean;
     callback?(snapshot: firebase.database.DataSnapshot): any;
 }
 declare class RealtimeDatabase {
@@ -13,7 +15,7 @@ declare class RealtimeDatabase {
     getDb: ({ options, url }: props) => firebase.database.Database;
     getPath: ({ options, url, path }: props) => firebase.database.Reference;
     pushToPath: ({ options, url, path, value }: props) => Promise<unknown>;
-    observePath: ({ options, url, path, callback }: props) => void;
+    observePath: ({ options, url, path, event, quickDelete, callback }: props) => void;
 }
 declare const _default: RealtimeDatabase;
 export default _default;

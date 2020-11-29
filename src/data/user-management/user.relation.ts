@@ -7,7 +7,7 @@ interface IUserRelation{
     author:IUser;
     createdAt;
     lastModifiedAt;
-    status:string;
+    status:"requested"|"blocked"|"accepted"|"rejected";
     followeeId:IUser;
     followerId:IUser;
     [prop:string]:any;
@@ -94,10 +94,6 @@ class UserRelation extends RESTObject<IUserRelation>{
 
     setFollowerId(userId){
         this.data.followerId.userId=userId;
-    }
-
-    setStatus(status:string){
-        this.data.status = status;
     }
 
 }
