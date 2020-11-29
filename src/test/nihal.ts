@@ -1,4 +1,5 @@
-import { IUser, User } from "../data/user-management";
+import { IQuery, Query } from "../data/queries";
+import { IUser, User, UserRelation } from "../data/user-management";
 import SearchRESTObject from "../rest/search.rest.object";
 
 function sleep(ms){
@@ -44,6 +45,7 @@ async function searchUser(search:string='',attributes:string[]) {
         sro.response.result.forEach((u)=>console.log(u.data.email));
         return sro;
     } catch (error) {
+        console.error(error);
     }
 }
 
@@ -55,7 +57,64 @@ async function liveUserSuggestion(search:string):Promise<any[]>{
             return {userId,firstName,lastName};
         })
     } catch (error) {
-        
+        console.error(error);
+    }
+}
+
+
+async function searchQuery(search:string='',attributes:string[]) {
+    try {
+        const query:Query = new Query();
+        const sro:SearchRESTObject<IQuery> = new SearchRESTObject(query);
+        sro.request.query = testSearchUtil(["published.title","published.body"],search);
+        console.log(sro.request.query);
+        sro.request.sort = {
+            "lastModifiedAt":1
+        };
+        sro.request.pageSize=10;
+        if(attributes)
+            sro.request.attributes=attributes;
+        await sro.search();
+        sro.response.result.forEach((u)=>console.log(u.data.published.title));
+        return sro.response.result;
+    } catch (error) {
+        console.error(error);
+    }
+    return []
+}
+
+async function liveQuerySuggestion(search:string):Promise<any[]>{
+    try {
+        const sro = await searchQuery(search,['published.title','published.tags','author','stats']);
+        return sro.map((u)=>{
+            return u.data;
+        })
+    } catch (error) {
+        console.error(error);
+    }
+    return [];
+}
+
+async function sendFollowRequest(userId:string) {
+    try {
+        const userRelation:UserRelation = new UserRelation();
+        userRelation.data.followeeId.userId = userId;
+        userRelation.data.status = 'requested';
+        await userRelation.create();
+        return userRelation;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function unfollowUser(userId:string) {
+    try {
+        const userRelation:UserRelation = new UserRelation();
+        userRelation.data.followeeId.userId = userId;
+        await userRelation.create();
+        return userRelation;
+    } catch (error) {
+        console.error(error);
     }
 }
 

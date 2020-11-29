@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const queries_1 = require("../data/queries");
 const user_management_1 = require("../data/user-management");
 const search_rest_object_1 = require("../rest/search.rest.object");
 function sleep(ms) {
@@ -53,6 +54,7 @@ function searchUser(search = '', attributes) {
             return sro;
         }
         catch (error) {
+            console.error(error);
         }
     });
 }
@@ -66,6 +68,71 @@ function liveUserSuggestion(search) {
             });
         }
         catch (error) {
+            console.error(error);
+        }
+    });
+}
+function searchQuery(search = '', attributes) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const query = new queries_1.Query();
+            const sro = new search_rest_object_1.default(query);
+            sro.request.query = testSearchUtil(["published.title", "published.body"], search);
+            console.log(sro.request.query);
+            sro.request.sort = {
+                "lastModifiedAt": 1
+            };
+            sro.request.pageSize = 10;
+            if (attributes)
+                sro.request.attributes = attributes;
+            yield sro.search();
+            sro.response.result.forEach((u) => console.log(u.data.published.title));
+            return sro.response.result;
+        }
+        catch (error) {
+            console.error(error);
+        }
+        return [];
+    });
+}
+function liveQuerySuggestion(search) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const sro = yield searchQuery(search, ['published.title', 'published.tags', 'author', 'stats']);
+            return sro.map((u) => {
+                return u.data;
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+        return [];
+    });
+}
+function sendFollowRequest(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const userRelation = new user_management_1.UserRelation();
+            userRelation.data.followeeId.userId = userId;
+            userRelation.data.status = 'requested';
+            yield userRelation.create();
+            return userRelation;
+        }
+        catch (error) {
+            console.error(error);
+        }
+    });
+}
+function unfollowUser(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const userRelation = new user_management_1.UserRelation();
+            userRelation.data.followeeId.userId = userId;
+            yield userRelation.create();
+            return userRelation;
+        }
+        catch (error) {
+            console.error(error);
         }
     });
 }
