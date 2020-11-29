@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.refreshAPI = exports.DOMAIN = exports.API = void 0;
+const headers_1 = require("./headers");
 const DOMAIN = {
     USER_MANAGEMENT: 'http://localhost:4000',
     QUERIES: 'http://localhost:4001',
@@ -196,6 +197,12 @@ const refreshAPI = () => {
                     }
                     else if (this.data.followerId && this.data.followerId.userId) {
                         userId = this.data.followerId.userId;
+                    }
+                    else if (headers_1.default.isUserConfirmed()) {
+                        userId = headers_1.default.getUserId();
+                    }
+                    else {
+                        throw new Error('Please set followeeId or followerId of UserRelation');
                     }
                     return BASE_PATH.USER_MANAGEMENT.USER + '/' + userId + '/relation';
                 }

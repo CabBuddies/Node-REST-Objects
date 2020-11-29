@@ -1,3 +1,5 @@
+import headers from "./headers";
+
 const DOMAIN = {
     USER_MANAGEMENT:'http://localhost:4000',
     QUERIES:'http://localhost:4001',
@@ -180,6 +182,10 @@ const refreshAPI =()=>{
                        userId=this.data.followeeId.userId; 
                     }else if(this.data.followerId && this.data.followerId.userId){
                        userId=this.data.followerId.userId; 
+                    }else if(headers.isUserConfirmed()){
+                        userId=headers.getUserId();
+                    }else{
+                        throw new Error('Please set followeeId or followerId of UserRelation');
                     }
                     return BASE_PATH.USER_MANAGEMENT.USER+'/'+userId+'/relation';
                 }
