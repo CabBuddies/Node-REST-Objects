@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendDirectChatMessage = exports.liveMessages = exports.connectToFirebase = void 0;
+exports.sendDirectChatMessage = exports.listenLiveMessages = exports.connectToFirebase = void 0;
 const headers_1 = require("../../rest/headers");
 const realtime_database_1 = require("../../rest/realtime.database");
 const MessageTypes = {
@@ -10,7 +10,7 @@ function connectToFirebase(options) {
     return realtime_database_1.default.getApp({ options });
 }
 exports.connectToFirebase = connectToFirebase;
-function liveMessages({ directChatMessageReceived, groupChatMessageReceived, notificationReceived, otherMessageReceived }) {
+function listenLiveMessages({ directChatMessageReceived, groupChatMessageReceived, notificationReceived, otherMessageReceived }) {
     if (headers_1.default.isUserLoggedIn() === false)
         return false;
     realtime_database_1.default.observePath({
@@ -34,11 +34,11 @@ function liveMessages({ directChatMessageReceived, groupChatMessageReceived, not
     });
     return true;
 }
-exports.liveMessages = liveMessages;
+exports.listenLiveMessages = listenLiveMessages;
 function sendDirectChatMessage(receipientUserId, message) {
     if (headers_1.default.isUserLoggedIn() === false)
         return new Promise((resolve, reject) => { reject('Unauthorized'); });
-    const messageObject = { from: headers_1.default.getUserId(), message, timestamp: new Date() };
+    const messageObject = { from: headers_1.default.getUserId(), message, ts: new Date() };
     return realtime_database_1.default.pushToPath({
         path: '/user/' + receipientUserId,
         value: messageObject

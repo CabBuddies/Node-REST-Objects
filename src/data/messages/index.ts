@@ -4,7 +4,7 @@ import realtimeDatabase from "../../rest/realtime.database";
 interface IDirectChatMessage{
     from:string,
     message:string,
-    timestamp:any
+    ts:any
 }
 
 interface IGroupChatMessage extends IDirectChatMessage{
@@ -25,7 +25,7 @@ export function connectToFirebase(options){
     return realtimeDatabase.getApp({options})
 }
 
-export function liveMessages({
+export function listenLiveMessages({
         directChatMessageReceived,
         groupChatMessageReceived,
         notificationReceived,
@@ -59,7 +59,7 @@ export function liveMessages({
 export function sendDirectChatMessage(receipientUserId:string,message:string){
     if(headers.isUserLoggedIn()===false)return new Promise((resolve,reject)=>{reject('Unauthorized');});
 
-    const messageObject:IDirectChatMessage = {from:headers.getUserId(),message,timestamp:new Date()};
+    const messageObject:IDirectChatMessage = {from:headers.getUserId(),message,ts:new Date()};
     
     return realtimeDatabase.pushToPath({
         path:'/user/'+receipientUserId,
