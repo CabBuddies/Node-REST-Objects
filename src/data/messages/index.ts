@@ -29,11 +29,13 @@ export function connectToFirebase(options){
 }
 
 export function listenLiveMessages({
+        ownUserId,
         directChatMessageReceived,
         groupChatMessageReceived,
         notificationReceived,
         otherMessageReceived
     }:{
+        ownUserId:string,
         directChatMessageReceived?(directMessage:IDirectChatMessage):any,
         groupChatMessageReceived?(groupMessage:IGroupChatMessage):any,
         notificationReceived?(notification:INotification):any,
@@ -41,7 +43,7 @@ export function listenLiveMessages({
     }){
     if(headers.isUserLoggedIn()===false)return false;
     realtimeDatabase.observePath({
-        path:'/user/'+headers.getUserId(),
+        path:'/user/'+ownUserId,
         quickDelete:true,
         callback:(snapshot)=>{
             const value = snapshot.val();
@@ -59,10 +61,10 @@ export function listenLiveMessages({
     return true;
 }
 
-export function sendDirectChatMessage(receipientUserId:string,message:string){
+export function sendDirectChatMessage(ownUserId:string,receipientUserId:string,message:string){
     if(headers.isUserLoggedIn()===false)return new Promise((resolve,reject)=>{reject('Unauthorized');});
 
-    const messageObject:IDirectChatMessage = {type:MessageTypes.DCMSG,from:headers.getUserId(),message,ts:new Date()};
+    const messageObject:IDirectChatMessage = {type:MessageTypes.DCMSG,from:ownUserId,message,ts:new Date().getTime()};
     
     return realtimeDatabase.pushToPath({
         path:'/user/'+receipientUserId,
