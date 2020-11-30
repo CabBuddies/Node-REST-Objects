@@ -1,7 +1,12 @@
 import headers from "../../rest/headers";
 import realtimeDatabase from "../../rest/realtime.database";
 
+enum MessageTypes {
+    NTF='NTF',DCMSG='DCMSG',GCMSG='GCMSG'
+}
+
 interface IDirectChatMessage{
+    type:MessageTypes
     from:string,
     message:string,
     ts:any
@@ -12,14 +17,12 @@ interface IGroupChatMessage extends IDirectChatMessage{
 }
 
 interface INotification{
+    type:MessageTypes,
     eventType:string,
     message:string,
     data:any
 }
 
-const MessageTypes = {
-    NTF:'NTF',DCMSG:'DCMSG',GCMSG:'GCMSG'
-}
 
 export function connectToFirebase(options){
     return realtimeDatabase.getApp({options})
@@ -43,13 +46,13 @@ export function listenLiveMessages({
         callback:(snapshot)=>{
             const value = snapshot.val();
             if(value.type===MessageTypes.NTF){
-                notificationReceived(value);
+                notificationReceived && notificationReceived(value);
             }else if(value.type===MessageTypes.DCMSG){
-                directChatMessageReceived(value);
+                directChatMessageReceived && directChatMessageReceived(value);
             }else if(value.type===MessageTypes.GCMSG){
-                groupChatMessageReceived(value);
+                groupChatMessageReceived && groupChatMessageReceived(value);
             }else{
-                otherMessageReceived(value);
+                otherMessageReceived && otherMessageReceived(value);
             }
         }
     })
@@ -59,7 +62,7 @@ export function listenLiveMessages({
 export function sendDirectChatMessage(receipientUserId:string,message:string){
     if(headers.isUserLoggedIn()===false)return new Promise((resolve,reject)=>{reject('Unauthorized');});
 
-    const messageObject:IDirectChatMessage = {from:headers.getUserId(),message,ts:new Date()};
+    const messageObject:IDirectChatMessage = {type:MessageTypes.DCMSG,from:headers.getUserId(),message,ts:new Date()};
     
     return realtimeDatabase.pushToPath({
         path:'/user/'+receipientUserId,

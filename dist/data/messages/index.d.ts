@@ -1,4 +1,10 @@
+declare enum MessageTypes {
+    NTF = "NTF",
+    DCMSG = "DCMSG",
+    GCMSG = "GCMSG"
+}
 interface IDirectChatMessage {
+    type: MessageTypes;
     from: string;
     message: string;
     ts: any;
@@ -7,6 +13,7 @@ interface IGroupChatMessage extends IDirectChatMessage {
     roomId: string;
 }
 interface INotification {
+    type: MessageTypes;
     eventType: string;
     message: string;
     data: any;

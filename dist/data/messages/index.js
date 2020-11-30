@@ -3,9 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendDirectChatMessage = exports.listenLiveMessages = exports.connectToFirebase = void 0;
 const headers_1 = require("../../rest/headers");
 const realtime_database_1 = require("../../rest/realtime.database");
-const MessageTypes = {
-    NTF: 'NTF', DCMSG: 'DCMSG', GCMSG: 'GCMSG'
-};
+var MessageTypes;
+(function (MessageTypes) {
+    MessageTypes["NTF"] = "NTF";
+    MessageTypes["DCMSG"] = "DCMSG";
+    MessageTypes["GCMSG"] = "GCMSG";
+})(MessageTypes || (MessageTypes = {}));
 function connectToFirebase(options) {
     return realtime_database_1.default.getApp({ options });
 }
@@ -19,16 +22,16 @@ function listenLiveMessages({ directChatMessageReceived, groupChatMessageReceive
         callback: (snapshot) => {
             const value = snapshot.val();
             if (value.type === MessageTypes.NTF) {
-                notificationReceived(value);
+                notificationReceived && notificationReceived(value);
             }
             else if (value.type === MessageTypes.DCMSG) {
-                directChatMessageReceived(value);
+                directChatMessageReceived && directChatMessageReceived(value);
             }
             else if (value.type === MessageTypes.GCMSG) {
-                groupChatMessageReceived(value);
+                groupChatMessageReceived && groupChatMessageReceived(value);
             }
             else {
-                otherMessageReceived(value);
+                otherMessageReceived && otherMessageReceived(value);
             }
         }
     });
@@ -38,7 +41,7 @@ exports.listenLiveMessages = listenLiveMessages;
 function sendDirectChatMessage(receipientUserId, message) {
     if (headers_1.default.isUserLoggedIn() === false)
         return new Promise((resolve, reject) => { reject('Unauthorized'); });
-    const messageObject = { from: headers_1.default.getUserId(), message, ts: new Date() };
+    const messageObject = { type: MessageTypes.DCMSG, from: headers_1.default.getUserId(), message, ts: new Date() };
     return realtime_database_1.default.pushToPath({
         path: '/user/' + receipientUserId,
         value: messageObject
