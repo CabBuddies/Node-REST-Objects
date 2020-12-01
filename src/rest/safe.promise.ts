@@ -1,6 +1,18 @@
 import Strings from "../utils/Strings";
 //import * as Invoker from '../../utils/factory/invoker';
 
+
+let handlers = {
+    handleEmptyToken : ()=>{} ,
+    handleExpiredRefreshToken : ()=>{} ,
+    handleNetworkError : ()=>{}
+}
+
+export function setHandlers(value:typeof handlers){
+    handlers = value;
+}
+
+
 export default function(promise:Promise<any>){
     console.log('safe.promise',promise);
     return new Promise((resolve,reject)=>{
@@ -9,11 +21,16 @@ export default function(promise:Promise<any>){
             resolve(result);
         }).catch((error)=>{
             console.log('safe.promise','error',error,Strings.ERROR.NETWORK_ERROR,error.message);
-            if(error.message === Strings.ERROR.TOKEN_EMPTY || error.message === Strings.ERROR.REFRESH_TOKEN_EXPIRED){
+            if(error.message === Strings.ERROR.TOKEN_EMPTY){
                 console.log('Sign In Required','');
+                handlers.handleEmptyToken();
+            }else if(error.message === Strings.ERROR.REFRESH_TOKEN_EXPIRED){
+                console.log('Sign In Required','');
+                handlers.handleExpiredRefreshToken();
             }else if(error.message === Strings.ERROR.NETWORK_ERROR){
                 console.log('safe.promise','redirect');
                 console.log('/oops');
+                handlers.handleNetworkError();
             }else{
                 reject(error);
             }
