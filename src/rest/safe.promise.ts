@@ -13,9 +13,9 @@ export function setHandlers(value:typeof handlers){
 }
 
 
-export default function(promise:Promise<any>){
+export default function safePromise<T>(promise:Promise<T>):Promise<T>{
     console.log('safe.promise',promise);
-    return new Promise((resolve,reject)=>{
+    return new Promise<T>((resolve,reject)=>{
         promise.then((result)=>{
             console.log('safe.promise','result',result);
             resolve(result);

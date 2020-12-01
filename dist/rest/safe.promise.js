@@ -12,7 +12,7 @@ function setHandlers(value) {
     handlers = value;
 }
 exports.setHandlers = setHandlers;
-function default_1(promise) {
+function safePromise(promise) {
     console.log('safe.promise', promise);
     return new Promise((resolve, reject) => {
         promise.then((result) => {
@@ -39,4 +39,4 @@ function default_1(promise) {
         });
     });
 }
-exports.default = default_1;
+exports.default = safePromise;

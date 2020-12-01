@@ -4,5 +4,5 @@ declare let handlers: {
     handleNetworkError: () => void;
 };
 export declare function setHandlers(value: typeof handlers): void;
-export default function (promise: Promise<any>): Promise<unknown>;
+export default function safePromise<T>(promise: Promise<T>): Promise<T>;
 export {};
