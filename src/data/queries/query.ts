@@ -38,6 +38,7 @@ class Query extends RESTObject<IQuery>{
                     title:'',
                     body:'',
                     tags:[],
+                    media:[],
                     lastModifiedAt:0
                 },
                 published:{
@@ -45,6 +46,7 @@ class Query extends RESTObject<IQuery>{
                     title:'',
                     body:'',
                     tags:[],
+                    media:[],
                     lastModifiedAt:0
                 },
                 stats:{
@@ -75,12 +77,14 @@ class Query extends RESTObject<IQuery>{
                 published:{
                     title : this.data.published.title||'',
                     body : this.data.published.body||'',
-                    tags : this.data.published.tags||[]
+                    tags : this.data.published.tags||[],
+                    media : this.data.published.media||[]
                 },
                 draft:{
                     title : this.data.draft.title||'',
                     body : this.data.draft.body||'',
-                    tags : this.data.draft.tags||[]
+                    tags : this.data.draft.tags||[],
+                    media : this.data.published.media||[]
                 },
                 status:this.data.status||'draft',
                 access:this.data.access||'public',
@@ -97,12 +101,14 @@ class Query extends RESTObject<IQuery>{
                 published:{
                     title : this.data.published.title||'',
                     body : this.data.published.body||'',
-                    tags : this.data.published.tags||[]
+                    tags : this.data.published.tags||[],
+                    media : this.data.published.media||[]
                 },
                 draft:{
                     title : this.data.draft.title||'',
                     body : this.data.draft.body||'',
-                    tags : this.data.draft.tags||[]
+                    tags : this.data.draft.tags||[],
+                    media : this.data.draft.media||[]
                 },
                 status:this.data.status||'draft',
                 access:this.data.access||'public',

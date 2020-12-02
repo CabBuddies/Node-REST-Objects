@@ -32,6 +32,7 @@ declare class Query extends RESTObject<IQuery> {
         _id: string;
         title: string;
         body: string;
+        media: String[];
         tags: String[];
         lastModifiedAt: any;
     };
