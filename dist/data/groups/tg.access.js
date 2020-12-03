@@ -38,14 +38,14 @@ class TGAccess extends rest_object_1.default {
         };
         this.overloadables.creationPacket = () => {
             return {
-                userId: this.data.userId || '',
+                userId: this.data.userId.userId || '',
                 status: this.data.status || 'requested',
                 role: this.data.role || 'member'
             };
         };
         this.overloadables.updationPacket = () => {
             return {
-                userId: this.data.userId || '',
+                userId: this.data.userId.userId || '',
                 status: this.data.status || 'requested'
             };
         };

@@ -53,7 +53,7 @@ class TGAccess extends RESTObject<ITGAccess>{
 
         this.overloadables.creationPacket = () => {
             return {
-                userId:this.data.userId||'',
+                userId:this.data.userId.userId||'',
                 status:this.data.status||'requested',
                 role:this.data.role||'member'
             }
@@ -61,7 +61,7 @@ class TGAccess extends RESTObject<ITGAccess>{
     
         this.overloadables.updationPacket = () => {
             return {
-                userId:this.data.userId||'',
+                userId:this.data.userId.userId||'',
                 status:this.data.status||'requested'
             }
         }
