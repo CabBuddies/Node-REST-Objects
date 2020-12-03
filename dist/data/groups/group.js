@@ -73,7 +73,7 @@ class Group extends rest_object_1.default {
                                 zip: ''
                             },
                             flexibility: {
-                                miles: 0
+                                bounds: []
                             }
                         }
                     },
@@ -104,7 +104,7 @@ class Group extends rest_object_1.default {
                                 zip: ''
                             },
                             flexibility: {
-                                miles: 0
+                                bounds: []
                             }
                         }
                     }

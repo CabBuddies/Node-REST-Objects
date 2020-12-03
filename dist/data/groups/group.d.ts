@@ -1,6 +1,10 @@
 import RESTObject from '../../rest/rest.object';
 import { Stats } from './schemas';
 import { IUser } from '../user-management/user';
+interface IGeo {
+    lat: number;
+    lng: number;
+}
 interface ITime {
     _id: string;
     timestamp: any;
@@ -12,10 +16,7 @@ interface ITime {
 }
 interface IPlace {
     _id: string;
-    gps: {
-        lat: number;
-        lng: number;
-    };
+    gps: IGeo;
     address: {
         raw: string;
         addressLine1: string;
@@ -27,7 +28,7 @@ interface IPlace {
     };
     isFlexible: boolean;
     flexibility: {
-        miles: number;
+        bounds: IGeo[];
     };
 }
 interface IGroup {

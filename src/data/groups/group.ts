@@ -4,6 +4,11 @@ import {IUser} from '../user-management/user';
 import { refreshAPI } from '../../rest/api';
 import {deIdfy} from '../utils';
 
+interface IGeo{
+    lat:number;
+    lng:number;
+}
+
 interface ITime{
     _id:string;
     timestamp:any;
@@ -16,10 +21,7 @@ interface ITime{
 
 interface IPlace{
     _id:string;
-    gps:{
-        lat:number;
-        lng:number;
-    };
+    gps:IGeo;
     address:{
         raw:string;
         addressLine1:string;
@@ -31,7 +33,7 @@ interface IPlace{
     };
     isFlexible:boolean;
     flexibility:{
-        miles:number;
+        bounds:IGeo[];
     }
 }
 
@@ -136,7 +138,7 @@ class Group extends RESTObject<IGroup>{
                                 zip:''
                             },
                             flexibility:{
-                                miles:0
+                                bounds:[]
                             }
                         }
                     },
@@ -167,7 +169,7 @@ class Group extends RESTObject<IGroup>{
                                 zip:''
                             },
                             flexibility:{
-                                miles:0
+                                bounds:[]
                             }
                         }
                     }
