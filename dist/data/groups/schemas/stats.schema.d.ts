@@ -3,6 +3,7 @@ export default class Stats {
     viewCount: number;
     postCount: number;
     replyCount: number;
+    memberCount: number;
     followCount: number;
     upvoteCount: number;
     downvoteCount: number;

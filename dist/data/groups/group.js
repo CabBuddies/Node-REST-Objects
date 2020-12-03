@@ -28,6 +28,7 @@ class Group extends rest_object_1.default {
                     viewCount: 0,
                     postCount: 0,
                     replyCount: 0,
+                    memberCount: 0,
                     followCount: 0,
                     upvoteCount: 0,
                     downvoteCount: 0,
