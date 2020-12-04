@@ -43,7 +43,6 @@ class Reply extends RESTObject<IReply>{
         this.overloadables.creationPacket = () => {
             return {
                 body:this.data.body||'',
-                postId:this.data.postId||'',
                 customAttributes:this.data.customAttributes||{}
             }
         }

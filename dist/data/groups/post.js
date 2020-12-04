@@ -46,8 +46,8 @@ class Post extends rest_object_1.default {
             return {
                 title: this.data.title || '',
                 body: this.data.body || '',
-                groupId: this.data.groupId || '',
                 topics: this.data.topics || [],
+                media: this.data.media || [],
                 customAttributes: this.data.customAttributes || {}
             };
         };
@@ -56,6 +56,7 @@ class Post extends rest_object_1.default {
                 title: this.data.title || '',
                 body: this.data.body || '',
                 topics: this.data.topics || [],
+                media: this.data.media || [],
                 customAttributes: this.data.customAttributes || {}
             };
         };

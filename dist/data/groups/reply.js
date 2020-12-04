@@ -30,7 +30,6 @@ class Reply extends rest_object_1.default {
         this.overloadables.creationPacket = () => {
             return {
                 body: this.data.body || '',
-                postId: this.data.postId || '',
                 customAttributes: this.data.customAttributes || {}
             };
         };
