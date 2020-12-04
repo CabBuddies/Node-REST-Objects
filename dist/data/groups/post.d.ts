@@ -9,6 +9,7 @@ interface IPost {
     groupId: string;
     active: boolean;
     topics: string[];
+    media: string[];
     stats: Stats;
     createdAt: any;
     lastModifiedAt: any;

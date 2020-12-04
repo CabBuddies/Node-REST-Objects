@@ -11,6 +11,7 @@ interface IPost{
     groupId:string;
     active:boolean;
     topics:string[];
+    media:string[];
     stats:Stats;
     createdAt:any;
     lastModifiedAt:any;
@@ -50,6 +51,7 @@ class Post extends RESTObject<IPost>{
                     score:0
                 },
                 topics:[],
+                media:[],
                 customAttributes:{},
                 createdAt:0,
                 lastModifiedAt:0

@@ -34,6 +34,7 @@ class Post extends rest_object_1.default {
                     score: 0
                 },
                 topics: [],
+                media: [],
                 customAttributes: {},
                 createdAt: 0,
                 lastModifiedAt: 0
